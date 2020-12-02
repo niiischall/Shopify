@@ -28,9 +28,13 @@ const AddItem = (props) => {
 AddItem.navigationOptions = (navData) => {
     return {
         headerTitleStyle: {
-            alignSelf: 'center'
+            alignSelf: 'left'
         },
-        headerTitle: () => <Logo />,
+        headerTitle: () => (
+            <Text style = {styles.heading}>
+                Add Item
+            </Text>
+        ),
         headerLeft: () => (
             <HeaderButtons
                 HeaderButtonComponent = {CustomHeaderButton}
@@ -66,6 +70,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.colorBackgroundContent
+    },
+    heading: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 20,
+        color: Colors.colorPrimaryTheme
     }
 });
 

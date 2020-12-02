@@ -28,9 +28,13 @@ const Categories = (props) => {
 Categories.navigationOptions = (navData) => {
     return {
         headerTitleStyle: {
-            alignSelf: 'center'
+            alignSelf: 'left'
         },
-        headerTitle: () => <Logo />,
+        headerTitle: () => (
+            <Text style = {styles.heading}>
+                Listed Categories
+            </Text>
+        ),
         headerLeft: () => (
             <HeaderButtons
                 HeaderButtonComponent = {CustomHeaderButton}
@@ -66,6 +70,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.colorBackgroundContent
+    },
+    heading: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 20,
+        color: Colors.colorPrimaryTheme
     }
 });
 
