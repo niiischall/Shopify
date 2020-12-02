@@ -3,6 +3,7 @@ import {
     SafeAreaView,
     View,
     Text,
+    Image,
     StyleSheet
 } from 'react-native';
 import {
@@ -11,15 +12,26 @@ import {
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
-
-import Logo from '../components/Logo';
+import CustomButton from '../components/Button';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Orders = (props) => {
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
-                <Text>&nbsp;</Text>
+                <Image 
+                    source = {require('../assets/shopping-bag.png')}
+                    style = {styles.Image}
+                />
+                <Text style = {styles.headline}>
+                    No orders placed
+                </Text>
+                <Text style = {styles.subHeadline}>
+                    You have not ordered anything yet.
+                </Text>
+                <CustomButton 
+                    title = "Back to Shopping"
+                />
             </View>
         </SafeAreaView>
     )
@@ -75,6 +87,22 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
+    },
+    Image: {
+        width: 150,
+        height: 180,
+        marginBottom: 50
+    },
+    headline: {
+        fontFamily: 'OpenSans-Bold',
+        fontSize: 20,
+        marginBottom: 5,
+        color: Colors.colorBlack
+    },
+    subHeadline: {
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        color: Colors.colorHeadingText
     }
 });
 
