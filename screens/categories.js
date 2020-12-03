@@ -1,8 +1,10 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import { 
     SafeAreaView,
     View,
     Text,
+    FlatList,
     StyleSheet
 } from 'react-native';
 import {
@@ -10,16 +12,33 @@ import {
     Item
 } from 'react-navigation-header-buttons';
 
+import Category from '../components/Category';
 import {Colors} from '../services/constants';
-
-import Logo from '../components/Logo';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Categories = (props) => {
+    const categories = useSelector(store => store.ShopReducer.categories);
+
+    const CategoryItem = (itemData) => {
+        return <Category 
+            itemData = {itemData}
+            onClick  = {() => console.log("CATEGORY")}
+        />;
+    }
+
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
-                <Text>&nbsp;</Text>
+                <View style = {styles.searchBar}>
+                    <Text>&nbsp;</Text>
+                </View>
+                <FlatList 
+                    data         = {categories}
+                    numColumns   = {2}
+                    renderItem   = {CategoryItem}
+                    keyExtractor = {(item) => item.id}
+                    style        = {{width: '100%'}}
+                />
             </View>
         </SafeAreaView>
     )
@@ -68,6 +87,7 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
         justifyContent: 'center',
+        padding: 10,
         alignItems: 'center',
         backgroundColor: Colors.colorBackgroundContent
     },
@@ -75,6 +95,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
+    },
+    searchBar: {
+        width: '100%',
+        height: 50
     }
 });
 
