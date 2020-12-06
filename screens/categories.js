@@ -5,6 +5,7 @@ import {
     View,
     Text,
     FlatList,
+    TouchableOpacity,
     StyleSheet
 } from 'react-native';
 import {
@@ -14,7 +15,10 @@ import {
 
 import Category from '../components/Category';
 import {Colors} from '../services/constants';
+import CustomInput from '../components/Input';
 import CustomHeaderButton from '../components/HeaderButton';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Categories = (props) => {
     const categories = useSelector(store => store.ShopReducer.categories);
@@ -30,7 +34,20 @@ const Categories = (props) => {
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
                 <View style = {styles.searchBar}>
-                    <Text>&nbsp;</Text>
+                    <CustomInput 
+                        placeholder = "Search for categories..."
+                    />
+                    <TouchableOpacity 
+                        activeOpacity = {0.7}
+                        style = {styles.searchButton}
+                        onPress = {() => console.log("SEARCH")}
+                    >
+                        <Ionicons 
+                            name  = "md-search"
+                            size  = {24}
+                            color = {Colors.colorPrimaryTheme}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <FlatList 
                     data         = {categories}
@@ -89,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
         alignItems: 'center',
-        backgroundColor: Colors.colorBackgroundContent
+        backgroundColor: Colors.colorWhite
     },
     heading: {
         fontFamily: 'Roboto-Bold',
@@ -98,7 +115,18 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         width: '100%',
-        height: 50
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchButton: {
+        height: 40,
+        width: '10%',
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.colorBackgroundContent
     }
 });
 

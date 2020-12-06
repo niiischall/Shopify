@@ -4,7 +4,7 @@ import {
     TouchableNativeFeedback,
     View,
     Text,
-    ImageBackground,
+    Image,
     StyleSheet,
     Platform
 } from 'react-native';
@@ -25,16 +25,17 @@ const Category = (props) => {
                 onPress       = {props.onClick}
                 style         = {{flex: 1}}
             >
-                <ImageBackground
-                    source = {{uri: props.itemData.item.image}}
-                    style  = {styles.Image}
-                >
+                <View style = {styles.contentContainer}>
+                    <Image
+                        source = {{uri: props.itemData.item.image}}
+                        style  = {styles.Image}
+                    />
                     <View style = {styles.TextContainer}>
                         <Text style = {styles.Text}>
                             {props.itemData.item.title}
                         </Text>
                     </View>
-                </ImageBackground>
+                </View>
             </Component>
         </View>
     )
@@ -46,23 +47,29 @@ const styles = StyleSheet.create({
         flex: 1,    
         height: 200,
         margin: 10,
-        borderRadius: 10,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
         overflow: 'hidden',
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 4.65,
-        shadowColor: Colors.shadowColor,
-        shadowOpacity: 0.29,
-        elevation: 5 
+        elevation: 5
     },
-    Image: {
+    contentContainer: {
         width: '100%',
         height: '100%',
-        justifyContent: 'flex-end',
-        backgroundColor: Colors.colorShadow
+        justifyContent: 'center',
+        alignItems: 'center'
+    },  
+    Image: {
+        width: 150,
+        height: 150,
+        borderWidth: 3,
+        borderRadius: 100,
+        marginBottom: 5,
+        borderColor: Colors.colorPrimaryTheme
     },
     TextContainer: {
+        width: 150,
+        alignItems: 'center',
+        borderRadius: 15,
         backgroundColor: Colors.colorPrimaryTheme,
         padding: 5
     },
