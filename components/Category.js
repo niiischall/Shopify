@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
         borderWidth: 3,
-        borderRadius: 100,
+        borderRadius: 75,
         marginBottom: 5,
         borderColor: Colors.colorPrimaryTheme
     },

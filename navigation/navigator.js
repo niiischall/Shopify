@@ -39,7 +39,7 @@ import {Colors} from '../services/constants';
 /*Stack Navigators*/
 const defaultStackNavigationOptions = {
     headerStyle: {
-        backgroundColor: Colors.colorBars  
+        backgroundColor: Colors.colorBackgroundContent
     }
 }
 
@@ -152,7 +152,7 @@ const tabScreenMenus = {
 
 const tabStylingAndroid = {
     barStyle: {
-        backgroundColor: Colors.colorBars
+        backgroundColor: Colors.colorBackgroundContent
     },
     activeColor: Colors.colorPrimaryTheme,
     inactiveColor: Colors.colorHeadingText
@@ -160,9 +160,9 @@ const tabStylingAndroid = {
 
 const tabStylingIOS = {
     activTintColor: Colors.colorPrimaryTheme,
-    activeBackgroundColor: Colors.colorBars,
+    activeBackgroundColor: Colors.colorBackgroundContent,
     inactiveTintColor: Colors.colorHeadingText,
-    inactiveBackgroundColor: Colors.colorBars,
+    inactiveBackgroundColor: Colors.colorBackgroundContent,
     labelStyle: {
         fontSize: 18
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useSelector} from 'react-redux';
 import { 
     SafeAreaView,
@@ -23,6 +23,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Categories = (props) => {
     const categories = useSelector(store => store.ShopReducer.categories);
 
+    const [searchedCategory, onSearching] = useState('');
+
     const CategoryItem = (itemData) => {
         return <Category 
             itemData = {itemData}
@@ -35,6 +37,8 @@ const Categories = (props) => {
             <View style = {styles.Container}>
                 <View style = {styles.searchBar}>
                     <CustomInput 
+                        onChange    = {onSearching}
+                        value       = {searchedCategory}
                         placeholder = "Search for categories..."
                     />
                     <TouchableOpacity 
@@ -55,6 +59,7 @@ const Categories = (props) => {
                     renderItem   = {CategoryItem}
                     keyExtractor = {(item) => item.id}
                     style        = {{width: '100%'}}
+                    showsVerticalScrollIndicator = {false}
                 />
             </View>
         </SafeAreaView>

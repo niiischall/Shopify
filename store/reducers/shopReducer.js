@@ -1,8 +1,9 @@
 import categories from '../../data/categories';
+import products from '../../data/products';
 
 const initialState = {
     categories: [...categories],
-    products: [],
+    products: [...products],
     orders: []
 }
 

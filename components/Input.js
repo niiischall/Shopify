@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
     View,
     TextInput,
@@ -8,15 +8,12 @@ import {
 import {Colors} from '../services/constants';
 
 const Input = (props) => {
-  const [value, onChangeText] = useState('');
-
-  
   return (
     <View style = {styles.Container}>
         <TextInput
             style = {styles.Input}
-            onChangeText = {text => onChangeText(text)}
-            value = {value}
+            onChangeText = {text => props.onChange(text)}
+            value = {props.value}
             placeholder = {props.placeholder}
             placeholderTextColor = {Colors.colorPrimaryTheme}
         />
