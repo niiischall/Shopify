@@ -28,8 +28,6 @@ const Home = (props) => {
     const [homeCatalogue, setHomeCatalogue] = useState([]);
     const [searchedProduct, onSearching]    = useState('');
 
-    const [stickyIndices, setStickyIndices] = useState([0]);
-
     const categories = useSelector(store => store.ShopReducer.categories);
     const products = useSelector(store => store.ShopReducer.products);
 
@@ -44,18 +42,6 @@ const Home = (props) => {
             setHomeCatalogue(fetchedHomeCatalogue);
         }
     }, []);
-
-    useEffect(() => {
-        let arr = [];
-        if(homeCatalogue.length > 0){
-            homeCatalogue.forEach(obj => {
-                if(!obj.categoryId){
-                  arr.push(homeCatalogue.indexOf(obj));
-                }
-              });
-            setStickyIndices(arr);
-        }
-    }, [homeCatalogue])
 
     return(
         <SafeAreaView style = {{flex: 1}}>
@@ -105,7 +91,6 @@ const Home = (props) => {
                             (item) => item.id
                         }
                         renderItem = {categoryCards}
-                        showsVerticalScrollIndicator = {false}
                     />
                 </View>
             </View>
