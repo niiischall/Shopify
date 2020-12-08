@@ -4,13 +4,15 @@ export class Product {
         categoryId, 
         title, 
         image,
+        description,
         price
     ){
-        this.id         = id;
-        this.categoryId = categoryId;
-        this.title      = title;
-        this.image      = image;
-        this.price      = price
+        this.id          = id;
+        this.categoryId  = categoryId;
+        this.title       = title;
+        this.image       = image;
+        this.description = description;
+        this.price       = price
     }
 } 
 
