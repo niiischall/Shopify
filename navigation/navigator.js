@@ -6,7 +6,7 @@ import {
     Platform 
 } from "react-native";
 import { 
-    createAppContainer 
+    createAppContainer
 } from "react-navigation";
 import { 
     createStackNavigator 
@@ -30,6 +30,7 @@ import Orders     from '../screens/orders';
 import Profile    from '../screens/profile';
 import AddItem    from '../screens/addItem';
 import Drawer     from '../components/Drawer';
+import Checkout   from '../screens/Checkout';
 
 /*Constants*/
 import {Colors} from '../services/constants';
@@ -188,9 +189,7 @@ const DrawerNavigator = createDrawerNavigator(
         Sell: {
             screen: AddItemStackNavigator
         },
-        Profile: {
-            screen: ProfileStackNavigator
-        }
+        Checkout: Checkout
     },
     {
         width: 150,

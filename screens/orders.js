@@ -7,6 +7,9 @@ import {
     StyleSheet
 } from 'react-native';
 import {
+    NavigationActions
+} from 'react-navigation';
+import {
     HeaderButtons,
     Item
 } from 'react-navigation-header-buttons';
@@ -16,6 +19,19 @@ import CustomButton from '../components/Button';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Orders = (props) => {
+    console.log(props.navigation);
+
+    const backToShopping = () => {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({ routeName: 'Home'})
+            ]
+          });
+          props.navigation.dispatch(resetAction);
+    }
+
+
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
@@ -30,7 +46,10 @@ const Orders = (props) => {
                     You have not ordered anything yet.
                 </Text>
                 <CustomButton 
-                    title = "Back to Shopping"
+                    title   = "Back to Shopping"
+                    onPress = {() => {
+                        props.navigation.navigate('Home')
+                    }}
                 />
             </View>
         </SafeAreaView>
@@ -68,7 +87,7 @@ Orders.navigationOptions = (navData) => {
                     iconName = "md-cart"
                     title    = "CART"
                     onPress  = {
-                        () => console.log("CART")
+                        () => navData.navigation.navigate('Checkout')
                     }    
                 />
             </HeaderButtons>
@@ -89,8 +108,8 @@ const styles = StyleSheet.create({
         color: Colors.colorPrimaryTheme
     },
     Image: {
-        width: 150,
-        height: 180,
+        width: 200,
+        height: 200,
         marginBottom: 50
     },
     headline: {

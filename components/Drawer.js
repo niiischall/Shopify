@@ -70,24 +70,6 @@ const Drawer = (props) => {
                             }
                         >Sell On Shopify</Text>
                     </View>
-                    <View 
-                        style = {
-                            props.activeItemKey === 'Profile'   
-                            ? styles.SelectedDrawerItem
-                            : styles.DrawerItem
-                        }
-                        onTouchStart = {
-                            () => navigate('Profile')
-                        }
-                    >
-                    <Text 
-                        style = {
-                            props.activeItemKey === 'Profile'   
-                            ? styles.SelectedDrawerItemText
-                            : styles.DrawerItemText
-                        }
-                    >Profile</Text>
-                    </View>
                 </View>
                 <View style = {styles.DrawerListItem}>
                     <View style = {{

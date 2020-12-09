@@ -20,23 +20,23 @@ const Category = (props) => {
 
     return(
         <View style = {styles.CategoryTile}>
-            <Component 
-                activeOpacity = {0.8}
-                onPress       = {props.onClick}
-                style         = {{flex: 1}}
-            >
-                <View style = {styles.contentContainer}>
+            <View style = {styles.contentContainer}>
+                <Component 
+                    activeOpacity = {0.8}
+                    onPress       = {props.onClick}
+                    style         = {styles.ImageTouchable}
+                >
                     <Image
                         source = {{uri: props.itemData.item.image}}
                         style  = {styles.Image}
                     />
-                    <View style = {styles.TextContainer}>
-                        <Text style = {styles.Text}>
-                            {props.itemData.item.title}
-                        </Text>
-                    </View>
+                </Component>
+                <View style = {styles.TextContainer}>
+                    <Text style = {styles.Text}>
+                        {props.itemData.item.title}
+                    </Text>
                 </View>
-            </Component>
+            </View>
         </View>
     )
 }
@@ -58,6 +58,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },  
+    ImageTouchable: {
+        shadowColor: Colors.colorShadow,
+        shadowOffset: {
+	        width: 0,
+	        height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3
+    },
     Image: {
         width: 150,
         height: 150,

@@ -97,7 +97,7 @@ Categories.navigationOptions = (navData) => {
                     iconName = "md-cart"
                     title    = "CART"
                     onPress  = {
-                        () => console.log("CART")
+                        () => navData.navigation.navigate('Checkout')
                     }    
                 />
             </HeaderButtons>

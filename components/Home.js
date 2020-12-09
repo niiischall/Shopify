@@ -33,77 +33,72 @@ export const categoryOvals = (categories) => {
 }
 
 export const categoryCards = (catalogue) => {
-    let card = null;
-
-    if(!catalogue.item.categoryId){
-        card = (
-            <View
-                style = {styles.category}
-                key = {catalogue.item.id}
-            >
-                <Text style = {styles.categoryHeadline}>
-                    {catalogue.item.title}
-                </Text>
-            </View>
-        )
-    }else{
-        card = (
-            <View 
-                style = {styles.Product}
-                key   = {catalogue.item.id}
-            >
-                <Image 
-                    source = {{uri: catalogue.item.image}}
-                    style  = {styles.ProductImage}
-                />
-                <View style = {styles.ProductDetails}>
-                    <Text style = {styles.ProductText}>
-                        {catalogue.item.title}
+  
+    return catalogue.map(catalogueItem => {
+        let card = null;
+        if(!catalogueItem.categoryId){
+            card = (
+                <View
+                    style = {styles.category}
+                    key = {catalogueItem.id}
+                >
+                    <Text style = {styles.categoryHeadline}>
+                        {catalogueItem.title}
                     </Text>
-                    <Text style = {styles.ProductText}>
-                        $ {catalogue.item.price}
-                    </Text>
-                    <View 
-                        style = {styles.ButtonContainer}
-                    >
-                        <TouchableOpacity
-                            activeOpacity = {0.8}
-                            onPress = {() => console.log("PRODUCT DETAILS")}
-                            style = {{
-                                flexDirection: "row",
-                                borderWidth: 2,
-                                borderColor: Colors.colorPrimaryTheme,
-                                paddingVertical: 2,
-                                paddingHorizontal: 6,
-                                borderRadius: 5
-                            }}
+                </View>
+            )
+        }else{
+            card = (
+                <View 
+                    style = {styles.Product}
+                    key   = {catalogueItem.id}
+                >
+                    <Image 
+                        source = {{uri: catalogueItem.image}}
+                        style  = {styles.ProductImage}
+                    />
+                    <View style = {styles.ProductDetails}>
+                        <Text style = {styles.ProductText}>
+                            {catalogueItem.title}
+                        </Text>
+                        <Text style = {styles.ProductText}>
+                            $ {catalogueItem.price}
+                        </Text>
+                        <View 
+                            style = {styles.ButtonContainer}
                         >
-                            <Text 
-                                style = {styles.ButtonText}
+                            <TouchableOpacity
+                                activeOpacity = {0.8}
+                                onPress = {
+                                    () => console.log("PRODUCT DETAILS")
+                                }
+                                style = {{
+                                    flexDirection: "row",
+                                    borderWidth: 2,
+                                    borderColor: Colors.colorPrimaryTheme,
+                                    paddingVertical: 2,
+                                    paddingHorizontal: 6,
+                                    borderRadius: 5
+                                }}
                             >
-                                View Details
-                            </Text>
-                            <Ionicons 
-                                name  = "arrow-forward"
-                                size  = {20}
-                                color = {Colors.    colorPrimaryTheme}
-                            />
-                        </TouchableOpacity>
+                                <Text 
+                                    style = {styles.ButtonText}
+                                >
+                                    View Details
+                                </Text>
+                                <Ionicons 
+                                    name  = "arrow-forward"
+                                    size  = {20}
+                                    color = {Colors.    colorPrimaryTheme}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
-        )
-    }
-
-
-    return(
-        <View 
-            style = {styles.categoryCard}
-            key   = {Math.random()}
-        >
-            {card}
-        </View>
-    )
+            )
+        }
+        return card;
+    });
 }
 
 const styles = StyleSheet.create({
@@ -113,9 +108,9 @@ const styles = StyleSheet.create({
     },
     categoryOval: {
         backgroundColor: Colors.colorBackgroundContent,
-        width: 100,
-        height: 100,
-        borderRadius:50,
+        width: 90,
+        height: 90,
+        borderRadius: 45,
         borderWidth: 3,
         borderColor: Colors.colorPrimaryTheme,
         marginHorizontal: 5,
@@ -133,6 +128,7 @@ const styles = StyleSheet.create({
     Product: {
         backgroundColor: Colors.colorBackgroundContent,
         borderRadius: 5,
+        marginVertical: 5,
         paddingVertical: 5,
         paddingHorizontal: 10,
         height: 125,
@@ -146,7 +142,7 @@ const styles = StyleSheet.create({
             },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-        elevation: 2
+        elevation: 1
     },
     ProductDetails: {
         height: '100%',
@@ -176,7 +172,9 @@ const styles = StyleSheet.create({
         borderColor: Colors.colorWhite,
         padding: 10,
         borderRadius: 5,
-        backgroundColor: Colors.colorPrimaryTheme
+        marginBottom: 10,
+        backgroundColor: Colors.colorPrimaryTheme,
+        elevation: 2
     },
     categoryHeadline: {
         fontFamily: 'Roboto-Bold',

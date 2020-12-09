@@ -26,7 +26,7 @@ const Profile = (props) => {
             <View style = {styles.Container}>
                 <Image 
                     source = {
-                        require('../assets/user-placeholder.jpg')}
+                        require('../assets/user-placeholder.png')}
                     style = {styles.Image}
                 />
                 <View style = {styles.AuthContainer}>
@@ -34,7 +34,7 @@ const Profile = (props) => {
                         Welcome to Shopify
                     </Text>
                     <Text style = {styles.AuthSubHeading}>
-                        A marketplace of great products at even greater price!
+                       Great Products. No nonsense.
                     </Text>
                     <Formik
                         initialValues={{ 
@@ -139,7 +139,7 @@ Profile.navigationOptions = (navData) => {
                     iconName = "md-cart"
                     title    = "CART"
                     onPress  = {
-                        () => console.log("CART")
+                        () => navData.navigation.navigate('Checkout')
                     }    
                 />
             </HeaderButtons>
@@ -160,9 +160,8 @@ const styles = StyleSheet.create({
         color: Colors.colorPrimaryTheme
     },
     Image: {
-        width: 200,
-        height: 200,
-        borderWidth: 2
+        width: 275,
+        height: 175
     },
     AuthContainer: {
         justifyContent: 'center',

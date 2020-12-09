@@ -26,6 +26,7 @@ import {categoryCards, categoryOvals} from '../components/Home';
 
 const Home = (props) => {
     const [homeCatalogue, setHomeCatalogue] = useState([]);
+    const [stickyIndices, setStickyIndices] = useState([]);
     const [searchedProduct, onSearching]    = useState('');
 
     const categories = useSelector(store => store.ShopReducer.categories);
@@ -42,6 +43,17 @@ const Home = (props) => {
             setHomeCatalogue(fetchedHomeCatalogue);
         }
     }, []);
+
+    useEffect(() => {
+        if(homeCatalogue.length > 0){
+            let updatedStickyIndices = [];
+            homeCatalogue.forEach((catalogueItem, index) => {
+                if(!catalogueItem.categoryId)
+                    updatedStickyIndices.push(index);
+            });
+            setStickyIndices(updatedStickyIndices);
+        }
+    }, [homeCatalogue])
 
     return(
         <SafeAreaView style = {{flex: 1}}>
@@ -84,14 +96,13 @@ const Home = (props) => {
                             {categoryOvals(categories)}
                         </ScrollView>
                     </View>
-                    <FlatList 
+                    <ScrollView
                         style = {styles.CategoryList}
-                        data  = {homeCatalogue}
-                        keyExtractor = {
-                            (item) => item.id
-                        }
-                        renderItem = {categoryCards}
-                    />
+                        showsVerticalScrollIndicator = {false}
+                        stickyHeaderIndices = {stickyIndices}
+                    >
+                        {categoryCards(homeCatalogue)}
+                    </ScrollView>
                 </View>
             </View>
         </SafeAreaView>
@@ -125,7 +136,7 @@ Home.navigationOptions = (navData) => {
                     iconName = "md-cart"
                     title    = "CART"
                     onPress  = {
-                        () => console.log("CART")
+                        () => navData.navigation.navigate('Checkout')
                     }    
                 />
             </HeaderButtons>
@@ -165,7 +176,8 @@ const styles = StyleSheet.create({
     },
     CategoryList: {
         width: '100%',
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        marginTop: 10
     },
     categoryText: {
         fontFamily: 'Roboto-Bold',
