@@ -10,10 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "16.13.1",
-    "react-native": "0.63.4",
     "@react-native-community/masked-view": "^0.1.10",
+    "formik": "^2.2.5",
+    "react": "16.13.1",
     "react-dom": "^17.0.1",
+    "react-native": "0.63.4",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-paper": "^4.4.0",

@@ -19,12 +19,20 @@ const Button = (props) => {
     }
 
     return(
-        <View style = {styles.ButtonContainer}>
+        <View style = {{
+            ...styles.ButtonContainer,
+            ...props.ButtonContainerStyle
+        }}>
             <CustomButton 
                 activeOpacity = {0.8}
                 onPress       = {props.onPress}
             >
-                <View style = {styles.Button}>
+                <View 
+                    style = {{
+                        ...styles.Button,
+                        ...props.ButtonContainer
+                    }}
+                >
                     <Text style = {styles.ButtonText}>
                         {props.title}
                     </Text>

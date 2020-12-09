@@ -9,9 +9,16 @@ import {Colors} from '../services/constants';
 
 const Input = (props) => {
   return (
-    <View style = {styles.Container}>
+    <View 
+        style = {{
+        ...styles.Container,
+        ...props.searchContainerStyle, 
+    }}>
         <TextInput
-            style = {styles.Input}
+            style = {{
+                ...styles.Input,
+                ...props.searchStyle
+            }}
             onChangeText = {text => props.onChange(text)}
             value = {props.value}
             placeholder = {props.placeholder}
