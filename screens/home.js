@@ -21,7 +21,8 @@ import {Colors} from '../services/constants';
 import Logo from '../components/Logo';
 import CustomInput from '../components/Input';
 import CustomHeaderButton from '../components/HeaderButton';
-import {categoryCards, categoryOvals} from '../components/Home';
+import CategoryOvals from '../components/CategoryOvals';
+import catalogue from '../components/Catalogue';
 
 
 const Home = (props) => {
@@ -31,6 +32,13 @@ const Home = (props) => {
 
     const categories = useSelector(store => store.ShopReducer.categories);
     const products = useSelector(store => store.ShopReducer.products);
+
+    const seeCategory = (category) => {
+        props.navigation.navigate('Category', {
+            categoryId: category.id,
+            categoryName: category.title
+        })
+    }
 
     useEffect(() => {
         if(categories){
@@ -93,7 +101,10 @@ const Home = (props) => {
                             horizontal = {true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            {categoryOvals(categories)}
+                            <CategoryOvals 
+                                categories = {categories}
+                                onClick = {seeCategory}
+                            />
                         </ScrollView>
                     </View>
                     <ScrollView
@@ -101,7 +112,7 @@ const Home = (props) => {
                         showsVerticalScrollIndicator = {false}
                         stickyHeaderIndices = {stickyIndices}
                     >
-                        {categoryCards(homeCatalogue)}
+                        {catalogue(props, homeCatalogue)}
                     </ScrollView>
                 </View>
             </View>

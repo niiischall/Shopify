@@ -19,8 +19,6 @@ import CustomButton from '../components/Button';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Orders = (props) => {
-    console.log(props.navigation);
-
     const backToShopping = () => {
         const resetAction = NavigationActions.reset({
             index: 0,

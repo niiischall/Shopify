@@ -25,6 +25,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /*Screens*/
 import Categories from '../screens/categories';
+import Category   from '../screens/category';
+import Product    from '../screens/product';
 import Home       from '../screens/home';
 import Orders     from '../screens/orders';
 import Profile    from '../screens/profile';
@@ -41,12 +43,14 @@ import {Colors} from '../services/constants';
 const defaultStackNavigationOptions = {
     headerStyle: {
         backgroundColor: Colors.colorBackgroundContent
-    }
+    },
+    headerTintColor: Colors.colorPrimaryTheme
 }
 
 const categoriesStackNavigator = createStackNavigator(
     {
-        Categories: Categories
+        Categories: Categories,
+        Category: Category
     }, 
     {
         defaultNavigationOptions: defaultStackNavigationOptions
@@ -55,7 +59,9 @@ const categoriesStackNavigator = createStackNavigator(
 
 const homeStackNavigator = createStackNavigator(
     {
-        Home: Home
+        Home: Home,
+        Category: Category,
+        Product: Product
     },
     {
         defaultNavigationOptions:  defaultStackNavigationOptions

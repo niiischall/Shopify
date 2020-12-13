@@ -10,30 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
 
-export const categoryOvals = (categories) => {
-    return categories.map((category) => {
-        return (
-            <View style = {styles.categoryOvalContainer}>
-                <TouchableOpacity 
-                    activeOpacity = {0.8}
-                    style = {styles.categoryOval}
-                    onPress = {() => console.log("Categories")}
-                >
-                    <Image 
-                        source = {{uri: category.image}}
-                        style  = {styles.Image}
-                    />
-                </TouchableOpacity>
-                <Text style = {styles.categoryOvalText}>        
-                    {category.title}
-                </Text>
-            </View>
-        )
-    })
-}
-
-export const categoryCards = (catalogue) => {
-  
+const catalogue = (props, catalogue) => {
     return catalogue.map(catalogueItem => {
         let card = null;
         if(!catalogueItem.categoryId){
@@ -61,6 +38,14 @@ export const categoryCards = (catalogue) => {
                         <Text style = {styles.ProductText}>
                             {catalogueItem.title}
                         </Text>
+                        <Text style = {{
+                            ...styles.ProductText,
+                            textDecorationLine: 'line-through',
+                            textDecorationStyle: 'solid',
+                            fontStyle: 'italic'
+                        }}>
+                            $ {Math.round(catalogueItem.price + 20)}
+                        </Text>
                         <Text style = {styles.ProductText}>
                             $ {catalogueItem.price}
                         </Text>
@@ -68,10 +53,13 @@ export const categoryCards = (catalogue) => {
                             style = {styles.ButtonContainer}
                         >
                             <TouchableOpacity
-                                activeOpacity = {0.8}
-                                onPress = {
-                                    () => console.log("PRODUCT DETAILS")
-                                }
+                            activeOpacity = {0.8}
+                            onPress = {
+                            () => props.navigation.navigate ('Product', {
+                            productId: catalogueItem.id,
+                            productName:catalogueItem.title 
+                            })
+                            }
                                 style = {{
                                     flexDirection: "row",
                                     borderWidth: 2,
@@ -102,29 +90,6 @@ export const categoryCards = (catalogue) => {
 }
 
 const styles = StyleSheet.create({
-    categoryOvalContainer: {
-        alignItems: 'center',
-        paddingVertical: 3
-    },
-    categoryOval: {
-        backgroundColor: Colors.colorBackgroundContent,
-        width: 90,
-        height: 90,
-        borderRadius: 45,
-        borderWidth: 3,
-        borderColor: Colors.colorPrimaryTheme,
-        marginHorizontal: 5,
-        marginBottom: 3,
-        overflow: 'hidden'
-    },
-    categoryOvalText: {
-        fontFamily: 'Roboto-Bold',
-        color: Colors.colorPrimaryTheme
-    },
-    Image: {
-        width: '100%',
-        height: '100%'
-    },
     Product: {
         backgroundColor: Colors.colorBackgroundContent,
         borderRadius: 5,
@@ -190,3 +155,5 @@ const styles = StyleSheet.create({
         color: Colors.colorPrimaryTheme
     }
 })
+
+export default catalogue;

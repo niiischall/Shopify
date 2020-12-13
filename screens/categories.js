@@ -28,7 +28,12 @@ const Categories = (props) => {
     const CategoryItem = (itemData) => {
         return <Category 
             itemData = {itemData}
-            onClick  = {() => console.log("CATEGORY")}
+            onClick  = {
+                () => props.navigation.navigate('Category', {
+                    categoryId: itemData.item.id,
+                    categoryName: itemData.item.title
+                })
+            }
         />;
     }
 
