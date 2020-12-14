@@ -50,7 +50,8 @@ const defaultStackNavigationOptions = {
 const categoriesStackNavigator = createStackNavigator(
     {
         Categories: Categories,
-        Category: Category
+        Category: Category,
+        Product: Product
     }, 
     {
         defaultNavigationOptions: defaultStackNavigationOptions

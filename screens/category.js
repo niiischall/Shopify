@@ -75,7 +75,7 @@ const Category = (props) => {
                                     textDecorationLine: 'line-through',
                                     textDecorationStyle: 'solid',
                                     fontStyle: 'italic',
-                                    color: Colors.colorBackgroundContent
+                                    color: Colors.colorPrimaryTheme
                                 }}
                             >
                                 $ {
@@ -110,7 +110,7 @@ const Category = (props) => {
                                     <Ionicons 
                                         name  = "arrow-forward"
                                         size  = {20}
-                                        color = {Colors.colorWhite}
+                                        color = {Colors.colorPrimaryTheme}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
     },
     Heading: {
         fontFamily: 'OpenSans-Bold',
-        fontSize: 18,
-        color: Colors.colorPrimaryTheme
+        fontSize: 17,
+        color: Colors.colorHeadingText
     },
     Product: {
-        backgroundColor: Colors.colorPrimaryTheme,
-        borderRadius: 2,
+        backgroundColor: Colors.colorBackgroundContent,
+        borderRadius: 5,
         marginVertical: 10,
         paddingVertical: 5,
         paddingHorizontal: 10,
@@ -201,14 +201,14 @@ const styles = StyleSheet.create({
     ProductText: {
         fontSize: 18,
         fontFamily: 'Roboto-Bold',
-        color: Colors.colorWhite
+        color: Colors.colorPrimaryTheme
     },
     ProductImage: {
         width: 125,
         height: 125,
         borderRadius: 2,
-        borderWidth: 5,
-        borderColor: Colors.colorWhite
+        borderWidth: 3,
+        borderColor: Colors.colorPrimaryTheme
     },
     ButtonContainer: {
         padding: 3,
@@ -216,15 +216,15 @@ const styles = StyleSheet.create({
     },
     ButtonBox: {
         flexDirection: "row",
-        borderWidth: 3,
-        borderColor: Colors.colorWhite,
+        borderWidth: 2,
+        borderColor: Colors.colorPrimaryTheme,
         paddingVertical: 2,
         paddingHorizontal: 6,
-        borderRadius: 2
+        borderRadius: 3
     },
     ButtonText: {
         fontFamily: 'Roboto-Bold',
-        color: Colors.colorWhite
+        color: Colors.colorPrimaryTheme
     },
     heading: {
         fontFamily: 'Roboto-Bold',

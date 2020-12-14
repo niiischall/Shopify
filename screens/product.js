@@ -3,27 +3,62 @@ import {
     SafeAreaView,
     View,
     Text,
+    Image,
     StyleSheet
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import {
     HeaderButtons,
     Item
 } from 'react-navigation-header-buttons';
 
+import CustomButton from '../components/Button';
 import {Colors} from '../services/constants';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Product = (props) => {
+    const productId = props.navigation.getParam('productId'); 
+    const Products  = useSelector(store => store.ShopReducer.products);
+
+    let Product = Products.find(product => product.id === productId);
+
+    console.log(Product);
+
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
-                <Text>I'm the Product Page!</Text>
-                <Text>
-                    {props.navigation.getParam('productId')}
-                </Text>
-                <Text>
-                    {props.navigation.getParam('productName')}
-                </Text>
+                <View style = {styles.ImageContainer}>
+                    <Image 
+                        source = {{uri : Product.image}}
+                        style  = {styles.Image}
+                    />  
+                </View>
+                <View style = {styles.TextContainer}>
+                    <View style = {styles.HeadingContainer}>
+                        <Text style = {styles.title}>
+                            {Product.title}
+                        </Text>
+                        <Text style = {styles.price}>
+                            $ {Product.price} Only
+                        </Text>                    
+                    </View>
+                    <View style = {styles.ButtonContainer}>
+                        <CustomButton 
+                            title   = "Add to cart"
+                            onPress = {() => 
+                               console.log("ADD TO CART")
+                            }
+                            ButtonContainerStyle = {{
+                                marginTop: 0
+                            }}
+                        />
+                    </View>
+                    <View style = {styles.DetailsContainer}>
+                        <Text style = {styles.Details}>     
+                            "{Product.description}"
+                        </Text>
+                    </View>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -35,7 +70,7 @@ Product.navigationOptions = (navData) => {
             alignSelf: 'left'
         },
         headerTitle: () => (
-            <Text style = {styles.heading}>
+            <Text>
                 &nbsp;
             </Text>
         ),
@@ -58,8 +93,8 @@ Product.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        justifyContent: 'center',
-        padding: 10,
+        justifyContent: 'flex-start',
+        padding: 0,
         alignItems: 'center',
         backgroundColor: Colors.colorWhite
     },
@@ -67,6 +102,63 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
+    },
+    ImageContainer: {
+        width: '100%',
+        height: '40%',
+        padding: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    Image: {
+        width: 200,
+        height: 200,
+        borderRadius: 5
+    },
+    TextContainer: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    HeadingContainer: {
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        flex: 0.30,
+        width: '100%'
+    },
+    title: {
+        fontSize: 22,
+        fontFamily: 'Roboto-Bold',
+        color: Colors.colorPrimaryTheme
+    },
+    price: {
+        fontSize: 20,
+        fontFamily: 'OpenSans-Bold',
+        color: Colors.colorHeadingText
+    },
+    ButtonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        flex: 0.20
+    },
+    DetailsContainer: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingTop: 20,
+        padding: 5,
+        flex: 0.60,
+        width: '100%'
+    },
+    Details: {
+        width: '85%',
+        fontSize: 16,
+        color: Colors.colorHeadingText,
+        textAlign: 'center',
+        fontFamily: 'Roboto',
+        fontStyle: 'italic'
     }
 });
 

@@ -92,7 +92,7 @@ const PRODUCTS = [
   new Product(
     'p12',
     ['c2'],
-    "Solid Gold Bracelet ",
+    "Solid Gold Bracelet",
     "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
     "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
     168,
@@ -156,7 +156,7 @@ const PRODUCTS = [
   new Product(
     'p20',
     ['c8'],
-    'Samsung Gaming Monitor.',
+    'Samsung Gaming Monitor',
     "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
     "49 INCH SUPER ULTRAWIDE 32:9 CURVED GAMING MONITOR with dual 27 inch screen side by side QUANTUM DOT (QLED) TECHNOLOGY, HDR support.",
     999.99
