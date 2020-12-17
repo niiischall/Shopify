@@ -1,20 +1,45 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     View,
     TouchableOpacity,
-    Image,
-    Text,
     StyleSheet
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import * as actions from '../store/actions/actionShop';
+import CheckoutPlaceholder from '../components/Checkout';
+import Cart from '../components/Cart';
 import {Colors} from '../services/constants';
-import CustomButton from '../components/Button';
 
-const Checkout = (props) => (
-    <View 
-        style={styles.Container}
-    >
+const Checkout = (props) => {
+    const dispatch = useDispatch();
+
+    const cartItems = useSelector(store => store.ShopReducer.cart.cartItems);
+    const cartPrice = useSelector(store => store.ShopReducer.cart.cartPrice);
+
+    const deleteFromCart = (productId) => {
+        dispatch(actions.deleteFromCart(productId));
+    }
+
+    let content = null;
+
+    if(cartItems.length === 0){
+        content = <CheckoutPlaceholder {...props}/>
+    }
+
+    if(cartItems.length > 0){
+        content = (
+            <Cart 
+                items={cartItems} 
+                price={cartPrice}
+                delete={deleteFromCart} 
+            />
+        )
+    }
+
+    return(
+    <View style={styles.Container}>
         <View style = {styles.TopBar}>
             <TouchableOpacity
                 activeOpacity = {0.8}
@@ -27,26 +52,9 @@ const Checkout = (props) => (
                 />  
             </TouchableOpacity>
         </View>
-        <View style = {styles.Content}>
-            <Image 
-                source = {require('../assets/empty-cart.png')}
-                style  = {styles.Image}
-            />
-            <View style = {styles.TextContent}>
-                <Text style = {styles.Heading}>
-                    Hey, it feels so light.
-                </Text>
-                <Text style = {styles.subHeading}>
-                    There is nothing in your cart. Let's add some items.
-                </Text>
-            </View>
-            <CustomButton 
-                title   = "Back to Shopping"
-                onPress = {() => props.navigation.goBack()}
-            />
-        </View>
+        {content}
     </View>
-)
+)}
 
 Checkout.navigationOptions = (navData) => {
     return {
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1, 
         alignItems: 'center', 
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: Colors.colorWhite
     },
     TopBar: {
@@ -67,32 +75,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 20
     }, 
-    Content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-    Image: {
-        width: 200,
-        height: 200,
-        marginVertical: 20
-    },
-    TextContent: {
-        padding: 5,
-        alignItems: 'center'
-    },
-    Heading: {
-        fontFamily: 'OpenSans-Bold',
-        fontSize: 20,
-        marginBottom: 5,
-        color: Colors.colorBlack
-    },
-    subHeading: {
-        fontFamily: 'Roboto',
-        fontSize: 15,
-        color: Colors.colorHeadingText
-    }
 })
 
 export default Checkout;

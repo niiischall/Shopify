@@ -6,7 +6,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     HeaderButtons,
     Item
@@ -15,14 +15,19 @@ import {
 import CustomButton from '../components/Button';
 import {Colors} from '../services/constants';
 import CustomHeaderButton from '../components/HeaderButton';
+import * as actions from '../store/actions/actionShop';
 
 const Product = (props) => {
-    const productId = props.navigation.getParam('productId'); 
+    const productId = props.navigation.getParam('productId');
+    
+    const dispatch  = useDispatch();
     const Products  = useSelector(store => store.ShopReducer.products);
 
     let Product = Products.find(product => product.id === productId);
 
-    console.log(Product);
+    const handleAddToCart = (productId) => {
+        dispatch(actions.addToCart(productId));
+    }
 
     return(
         <SafeAreaView style = {{flex: 1}}>
@@ -45,8 +50,8 @@ const Product = (props) => {
                     <View style = {styles.ButtonContainer}>
                         <CustomButton 
                             title   = "Add to cart"
-                            onPress = {() => 
-                               console.log("ADD TO CART")
+                            onPress = { () =>
+                                handleAddToCart(Product.id)
                             }
                             ButtonContainerStyle = {{
                                 marginTop: 0

@@ -59,6 +59,8 @@ const styles = StyleSheet.create({
     Button: {
         paddingVertical: 10,
         paddingHorizontal: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: Colors.colorPrimaryTheme
     },
     ButtonText: {
