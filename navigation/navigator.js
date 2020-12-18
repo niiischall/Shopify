@@ -33,6 +33,7 @@ import Profile    from '../screens/profile';
 import AddItem    from '../screens/addItem';
 import Drawer     from '../components/Drawer';
 import Checkout   from '../screens/Checkout';
+import Contact    from '../screens/Contact';
 
 /*Constants*/
 import {Colors} from '../services/constants';
@@ -93,6 +94,13 @@ const AddItemStackNavigator = createStackNavigator(
     },
     {
         defaultNavigationOptions:  defaultStackNavigationOptions
+    }
+)
+
+const CheckoutStackNavigator = createStackNavigator(
+    {
+        Checkout: Checkout,
+        Contact: Contact
     }
 )
 
@@ -196,7 +204,9 @@ const DrawerNavigator = createDrawerNavigator(
         Sell: {
             screen: AddItemStackNavigator
         },
-        Checkout: Checkout
+        Checkout: {
+            screen: CheckoutStackNavigator
+        }
     },
     {
         width: 150,

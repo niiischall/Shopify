@@ -33,6 +33,7 @@ const Checkout = (props) => {
     if(cartItems.length > 0){
         content = (
             <Cart 
+                {...props}
                 items={cartItems} 
                 price={cartPrice}
                 delivery={delivery}
@@ -47,7 +48,9 @@ const Checkout = (props) => {
         <View style = {styles.TopBar}>
             <TouchableOpacity
                 activeOpacity = {0.8}
-                onPress = {() => props.navigation.goBack()}
+                onPress = {
+                    () => props.navigation.navigate('Shop')
+                }
             >
                 <Ionicons 
                     name  = "md-close"

@@ -100,7 +100,7 @@ const Cart = (props) => {
             <CustomButton 
                 title = "Place order" 
                 ButtonContainerStyle = {{marginTop: 0}}
-                onPress = {() => console.log("ORDERED")}
+                onPress = {() => props.navigation.navigate('Contact')}
             />
         </View>
     </View>

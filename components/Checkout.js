@@ -11,7 +11,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Colors} from '../services/constants';
 import CustomButton from './Button';
 
-const Checkout = (props) => (
+const Checkout = (props) => {
+    return(
     <View style = {styles.Content}>
         <Image 
             source = {require('../assets/empty-cart.png')}
@@ -27,11 +28,13 @@ const Checkout = (props) => (
         </View>
         <CustomButton 
             title   = "Back to Shopping"
-            onPress = {() => props.navigation.goBack()}
+            onPress = {
+                () => props.navigation.navigate('Shop')
+            }
         />
     </View>
-
-)
+    )
+}
 
 Checkout.navigationOptions = (navData) => {
     return {
