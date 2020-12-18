@@ -7,7 +7,9 @@ const initialState = {
     products: [...products],
     cart: {
         cartItems: [],
-        cartPrice: 0
+        cartPrice: 0,
+        delivery: 10.00,
+        totalBill: 10.00
     },
     orders: []
 }
@@ -22,8 +24,10 @@ const shopReducer = (state=initialState, action) => {
                 cart: {
                     ...state.cart,
                     cartItems: state.cart.cartItems.concat(product),
-                    cartPrice: Math.round(state.cart.cartPrice + product.price)
-                }
+                    cartPrice: Math.round((state.cart.cartPrice + product.price + Number.EPSILON) * 100) / 100,
+                    totalBill: Math.round((state.cart.totalBill + product.price + Number.EPSILON) * 100) / 100
+                },
+                
             }
         }
         case actionTypes.CART_DELETE_ITEM:{
@@ -33,7 +37,8 @@ const shopReducer = (state=initialState, action) => {
                 cart: {
                     ...state.cart,
                     cartItems: state.cart.cartItems.filter(cartItem => cartItem.id !== action.productId),
-                    cartPrice: Math.round(state.cart.cartPrice - product.price)
+                    cartPrice: Math.round((state.cart.cartPrice - product.price + Number.EPSILON) * 100) / 100,
+                    totalBill: Math.round((state.cart.totalBill - product.price + Number.EPSILON) * 100) / 100
                 }
             }
         }

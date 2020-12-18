@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { 
     SafeAreaView,
     ScrollView,
-    FlatList,
     TouchableOpacity,
     View,
     Text,
@@ -19,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
 import Logo from '../components/Logo';
+import CartIcon from '../components/CartIcon';
 import CustomInput from '../components/Input';
 import CustomHeaderButton from '../components/HeaderButton';
 import CategoryOvals from '../components/CategoryOvals';
@@ -140,17 +140,11 @@ Home.navigationOptions = (navData) => {
             </HeaderButtons>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-cart"
-                    title    = "CART"
-                    onPress  = {
-                        () => navData.navigation.navigate('Checkout')
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress = { 
+                    () => navData.navigation.navigate('Checkout')
+                }
+            />
         )
     } 
 }

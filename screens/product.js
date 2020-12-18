@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     SafeAreaView,
     View,
@@ -13,17 +13,27 @@ import {
 } from 'react-navigation-header-buttons';
 
 import CustomButton from '../components/Button';
+import CartIcon from '../components/CartIcon';
 import {Colors} from '../services/constants';
-import CustomHeaderButton from '../components/HeaderButton';
 import * as actions from '../store/actions/actionShop';
 
 const Product = (props) => {
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
+
     const productId = props.navigation.getParam('productId');
     
     const dispatch  = useDispatch();
     const Products  = useSelector(store => store.ShopReducer.products);
+    const cartItems = useSelector(store => store.ShopReducer.cart.cartItems);
 
     let Product = Products.find(product => product.id === productId);
+
+    useEffect(() => {
+        if(Product){
+            let isAddedToCart = cartItems.some(cartItem => cartItem.id === Product.id);
+            setIsAddedToCart(isAddedToCart);
+        }
+    })
 
     const handleAddToCart = (productId) => {
         dispatch(actions.addToCart(productId));
@@ -48,15 +58,30 @@ const Product = (props) => {
                         </Text>                    
                     </View>
                     <View style = {styles.ButtonContainer}>
-                        <CustomButton 
-                            title   = "Add to cart"
-                            onPress = { () =>
-                                handleAddToCart(Product.id)
-                            }
-                            ButtonContainerStyle = {{
-                                marginTop: 0
-                            }}
-                        />
+                        {
+                            !isAddedToCart 
+                            ?<CustomButton 
+                                title   = "Add to cart"
+                                onPress = { () =>
+                                    handleAddToCart(Product.id)
+                                }
+                                ButtonContainerStyle = {{
+                                    marginTop: 0
+                                }}
+                            />
+                            :<CustomButton 
+                                title   = "Go to cart"
+                                onPress = { () =>
+                                    props.navigation.navigate('Checkout')
+                                }
+                                ButtonContainerStyle = {{
+                                    marginTop: 0
+                                }}
+                                ButtonContainer = {{
+                                    backgroundColor: Colors.colorHeadingText
+                                }}
+                            />
+                        }
                     </View>
                     <View style = {styles.DetailsContainer}>
                         <Text style = {styles.Details}>     
@@ -80,17 +105,11 @@ Product.navigationOptions = (navData) => {
             </Text>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-cart"
-                    title    = "CART"
-                    onPress  = {
-                        () => navData.navigation.navigate('Checkout')
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress  = {
+                    () => navData.navigation.navigate('Checkout')
+                }    
+            />
         )
     } 
 }

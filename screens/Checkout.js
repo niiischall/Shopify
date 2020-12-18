@@ -17,6 +17,8 @@ const Checkout = (props) => {
 
     const cartItems = useSelector(store => store.ShopReducer.cart.cartItems);
     const cartPrice = useSelector(store => store.ShopReducer.cart.cartPrice);
+    const delivery  = useSelector(store => store.ShopReducer.cart.delivery);
+    const totalBill = useSelector(store => store.ShopReducer.cart.totalBill);
 
     const deleteFromCart = (productId) => {
         dispatch(actions.deleteFromCart(productId));
@@ -33,6 +35,8 @@ const Checkout = (props) => {
             <Cart 
                 items={cartItems} 
                 price={cartPrice}
+                delivery={delivery}
+                totalBill={totalBill}
                 delete={deleteFromCart} 
             />
         )

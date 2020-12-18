@@ -15,6 +15,7 @@ import {
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
+import CartIcon from '../components/CartIcon';
 import CustomButton from '../components/Button';
 import CustomHeaderButton from '../components/HeaderButton';
 
@@ -78,17 +79,11 @@ Orders.navigationOptions = (navData) => {
             </HeaderButtons>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-cart"
-                    title    = "CART"
-                    onPress  = {
-                        () => navData.navigation.navigate('Checkout')
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress = {
+                    () => navData.navigation.navigate('Checkout')
+                }
+            />
         )
     } 
 }

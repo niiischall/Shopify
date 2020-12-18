@@ -83,7 +83,7 @@ const Cart = (props) => {
                         Delivery
                     </Text>
                     <Text style = {styles.BillTextSecondary}>
-                        $10
+                        ${props.delivery}
                     </Text>
                 </View>
                 <View style = {styles.BillTextView}>
@@ -93,7 +93,7 @@ const Cart = (props) => {
                     <Text 
                         style = {styles.BillTextSecondary}
                     >
-                        ${Math.round(props.price + 10)}
+                        ${props.totalBill}
                     </Text>
                 </View>
             </View>

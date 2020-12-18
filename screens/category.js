@@ -16,6 +16,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
+import CartIcon from '../components/CartIcon';
 import Logo from '../components/Logo';
 import CustomHeaderButton from '../components/HeaderButton';
 
@@ -142,17 +143,11 @@ Category.navigationOptions = (navData) => {
             </Text>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-cart"
-                    title    = "CART"
-                    onPress  = {
-                        () => navData.navigation.navigate('Checkout')
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress  = {
+                    () => navData.navigation.navigate('Checkout')
+                }    
+            />
         )
     } 
 }

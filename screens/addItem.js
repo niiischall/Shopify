@@ -11,8 +11,7 @@ import {
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
-
-import Logo from '../components/Logo';
+import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const AddItem = (props) => {
@@ -49,17 +48,11 @@ AddItem.navigationOptions = (navData) => {
             </HeaderButtons>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-add-circle"
-                    title    = "CART"
-                    onPress  = {
-                        () => console.log("CART")
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress  = {
+                    () => console.log("CART")
+                } 
+            />
         )
     } 
 }

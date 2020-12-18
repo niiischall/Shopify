@@ -5,7 +5,6 @@ import {
     View,
     Text,
     TextInput,
-    Button,
     Image,
     StyleSheet
 } from 'react-native';
@@ -16,8 +15,7 @@ import {
 import { Formik } from 'formik';
 
 import {Colors} from '../services/constants';
-import CustomInput from '../components/Input';
-import CustomButton from '../components/Button';
+import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Profile = (props) => {
@@ -132,17 +130,11 @@ Profile.navigationOptions = (navData) => {
             </HeaderButtons>
         ),
         headerRight: () => (
-            <HeaderButtons
-                HeaderButtonComponent = {CustomHeaderButton}
-            >
-                <Item 
-                    iconName = "md-cart"
-                    title    = "CART"
-                    onPress  = {
-                        () => navData.navigation.navigate('Checkout')
-                    }    
-                />
-            </HeaderButtons>
+            <CartIcon 
+                onPress = {
+                    () => navData.navigation.navigate('Checkout')
+                }
+            />
         )
     } 
 }
