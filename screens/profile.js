@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     SafeAreaView,
     TouchableOpacity,
+    ScrollView,
     View,
     Text,
     TextInput,
+    Keyboard,
     Image,
+    KeyboardAvoidingView,
     StyleSheet
 } from 'react-native';
 import {
@@ -19,14 +22,51 @@ import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Profile = (props) => {
+    
+    const [keyboardPresent, setKeyboardPresence] = useState(false);
+
+    useEffect(() => {
+        Keyboard.addListener("keyboardDidShow",
+        handleKeyboardShow);
+        Keyboard.addListener("keyboardDidHide",
+            handleKeyboardHide);
+        return (() => {
+            Keyboard.removeListener("keyboardDidShow", handleKeyboardShow);
+            Keyboard.removeListener("keyboardDidHide",
+            handleKeyboardHide);
+        })
+    })
+
+    const handleKeyboardShow = () => {
+        setKeyboardPresence(true);
+    }
+
+    const handleKeyboardHide = () => {
+        setKeyboardPresence(false);
+    }
+
+
     return(
         <SafeAreaView style = {{flex: 1}}>
-            <View style = {styles.Container}>
-                <Image 
-                    source = {
-                        require('../assets/user-placeholder.png')}
-                    style = {styles.Image}
-                />
+            <KeyboardAvoidingView 
+                style = {styles.Container}
+                behavior="margin"
+            >
+                <ScrollView 
+                    style = {{
+                        width: '100%'
+                    }}
+                    contentContainerStyle = {{
+                        alignItems: 'center'
+                    }}
+                >
+                { !keyboardPresent &&   
+                    <Image 
+                        source = {
+                            require('../assets/user-placeholder.png')}
+                        style = {styles.Image}
+                    />
+                }
                 <View style = {styles.AuthContainer}>
                     <Text style = {styles.AuthHeading}>
                         Welcome to Shopify
@@ -101,7 +141,8 @@ const Profile = (props) => {
                     )}
                     </Formik>
                 </View>
-            </View>
+            </ScrollView>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
@@ -144,7 +185,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.colorWhite
+        backgroundColor: Colors.colorWhite,
     },
     heading: {
         fontFamily: 'Roboto-Bold',
@@ -153,10 +194,12 @@ const styles = StyleSheet.create({
     },
     Image: {
         width: 275,
-        height: 175
+        height: 175,
+        marginVertical: 20
     },
     AuthContainer: {
         justifyContent: 'center',
+        marginVertical: 20,
         alignItems: 'center',
         padding: 2,
         width: '70%'
@@ -195,7 +238,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: '55%',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 10,
         paddingVertical: 10,
         paddingHorizontal: 10,
         shadowColor: Colors.colorShadow,
