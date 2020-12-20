@@ -42,6 +42,24 @@ const shopReducer = (state=initialState, action) => {
                 }
             }
         }
+        case actionTypes.ORDER_PLACE: {
+            let newOrder = {
+                cart: state.cart,
+                details: action.orderDetails
+            }
+
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    cartItems: [],
+                    cartPrice: 0,
+                    delivery: 10.00,
+                    totalBill: 10.00
+                },
+                orders: state.orders.concat(newOrder)
+            }
+        }
         default: 
             return state;
     }

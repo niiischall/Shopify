@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {
     View,
     Text,
@@ -10,11 +11,52 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Formik } from 'formik';
 
+import Modal from '../components/Modal';
+import validationHelper from '../services/validate';
+import * as actions from "../store/actions/actionShop";
 import {Colors} from '../services/constants';
 
 const Contact = (props) => {
+
+    const dispatch = useDispatch();
+    
+    const [modalVisible, setModalVisible] = useState(false);
+    const [errors, setErrors]             = useState({});
+    const [SubmitForm, setSubmitForm]     = useState(false);
+
+    const goToOrders = () => {
+        props.navigation.popToTop();
+        props.navigation.navigate('Orders');
+        setModalVisible(false);
+    }
+
+    const goToShop = () => {
+        props.navigation.popToTop();
+        props.navigation.navigate('Shop');
+        setModalVisible(false);
+    }
+
+    const orderHandler = (orderDetail) => {
+        dispatch(actions.placeOrder(orderDetail));
+        setModalVisible(true);
+    }
+
+    const validationHandler = (values) => {
+        const errors = validationHelper(values);
+
+        if(Object.keys(errors).length === 0)
+            setSubmitForm(true);
+        setErrors(errors);
+        return errors;
+    }
+
     return(
         <View style = {styles.Container}>
+            <Modal 
+                modalVisible = {modalVisible} 
+                moveToOrders = {goToOrders}
+                moveToShop = {goToShop}
+            />
             <View style = {styles.TopBar}>
                 <TouchableOpacity
                     activeOpacity = {0.8}
@@ -44,9 +86,8 @@ const Contact = (props) => {
                             pin: '',
                             city: '' 
                         }}
-                        onSubmit={
-                            values => console.log(values)
-                        }
+                        validate = {validationHandler}
+                        onSubmit = {orderHandler}
                     >
                     {
                         ({ 
@@ -76,95 +117,84 @@ const Contact = (props) => {
                                     Contact Details
                                 </Text>
                                 <TextInput
-                                    onChangeText={
-                                        handleChange('name')
-                                    }
-                                    onBlur={
-                                        handleBlur('name')
-                                    }
+                                    onChangeText={handleChange('name')}
+                                    onBlur={handleBlur('name')}
                                     value={values.name}
                                     placeholder = "Name*"
-                                    style = {
-                                        styles.Input
-                                    }
-                                    placeholderTextColor = {
-                                        Colors.colorPrimaryTheme
-                                    }
+                                    style = {styles.Input}
+                                    placeholderTextColor = {Colors.colorPrimaryTheme}
                                 />
+                                {
+                                   errors.name && 
+                                   <Text style = {styles.error}>*{errors.name}.</Text>
+                                }
                                 <TextInput
-                                    onChangeText={
-                                        handleChange('phone')
-                                    }
-                                    onBlur={
-                                        handleBlur('phone')
-                                    }
+                                    onChangeText={handleChange('phone')}
+                                    onBlur={handleBlur('phone')}
                                     value={values.phone}
                                     placeholder = "Mobile No.*"
-                                    style = {
-                                        styles.Input
-                                    }
-                                    placeholderTextColor = {
-                                        Colors.colorPrimaryTheme
-                                    }
+                                    style = {styles.Input}
+                                    placeholderTextColor = {Colors.colorPrimaryTheme}
+                                    keyboardType = "number-pad"
                                 />
+                                {
+                                    errors.phone &&
+                                    <Text style = {styles.error}>*{errors.phone}.</Text>
+                                }
                                 <Text 
                                     style = {styles.InputLabels}
                                 >
                                     Address
                                 </Text>
                                 <TextInput
-                                    onChangeText={
-                                        handleChange('address')
-                                    }
-                                    onBlur={
-                                        handleBlur('address')
-                                    }
+                                    onChangeText={handleChange('address')}
+                                    onBlur={ handleBlur('address')}
                                     value={values.address}
                                     placeholder = "Complete Address*"
-                                    style = {
-                                        styles.Input
-                                    }
-                                    placeholderTextColor = {
-                                        Colors.colorPrimaryTheme
-                                    }
+                                    style={styles.Input}
+                                    placeholderTextColor = {Colors.colorPrimaryTheme}
                                 />
+                                {
+                                    errors.address &&
+                                    <Text style = {styles.error}>*{errors.address}.</Text>
+                                }
                                 <TextInput
-                                    onChangeText={
-                                        handleChange('pin')
-                                    }
-                                    onBlur={
-                                        handleBlur('pin')
-                                    }
+                                    onChangeText={handleChange('pin')}
+                                    onBlur={handleBlur('pin')}
                                     value={values.pin}
                                     placeholder = "PIN Code*"
-                                    style = {
-                                        styles.Input
-                                    }
-                                    placeholderTextColor = {
-                                        Colors.colorPrimaryTheme
-                                    }
+                                    style = {styles.Input}
+                                    placeholderTextColor = {Colors.colorPrimaryTheme}
+                                    keyboardType = "number-pad"
                                 />
+                                {
+                                    errors.pin &&
+                                    <Text style = {styles.error}>*{errors.pin}.</Text>
+                                }
                                 <TextInput
-                                    onChangeText={
-                                        handleChange('city')
-                                    }
-                                    onBlur={
-                                        handleBlur('city')
-                                    }
+                                    onChangeText={handleChange('city')}
+                                    onBlur={handleBlur('city')}
                                     value={values.city}
                                     placeholder = "City*"
-                                    style = {
-                                        styles.Input
-                                    }
-                                    placeholderTextColor = {
-                                        Colors.colorPrimaryTheme
-                                    }
+                                    style = {styles.Input}
+                                    placeholderTextColor = {Colors.colorPrimaryTheme}
                                 />
+                                {
+                                    errors.city &&
+                                    <Text style = {styles.error}>*{errors.city}.</Text>
+                                }
                             </ScrollView>
                             <TouchableOpacity 
                                 onPress={handleSubmit} 
                                 activeOpacity = {0.8}
-                                style = {styles.ButtonSubmit}
+                                style = {{
+                                ...styles.ButtonSubmit,
+                                backgroundColor: 
+                                    SubmitForm 
+                                    ? Colors.colorPrimaryTheme
+                                    : Colors.colorHeadingText
+                                }}
+                                disabled = {!SubmitForm}
                             >
                                 <Text style = {
                                     styles.ButtonText
@@ -252,14 +282,20 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        overflow: 'hidden',
-        backgroundColor: Colors.colorPrimaryTheme
+        overflow: 'hidden'
     },
     ButtonText: {
         fontSize: 18,
         fontFamily: 'Roboto-Bold',
         color: Colors.colorWhite
     },
+    error: {
+        alignSelf: 'flex-start',
+        color: Colors.colorSalmon,
+        paddingLeft: 40,
+        fontSize: 14,
+        fontFamily: 'Roboto-Bold'
+    }
 })
 
 export default Contact;

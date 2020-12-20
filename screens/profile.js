@@ -7,6 +7,8 @@ import {
     Text,
     TextInput,
     Keyboard,
+    Animated,
+    Easing,
     Image,
     KeyboardAvoidingView,
     StyleSheet
@@ -22,8 +24,8 @@ import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Profile = (props) => {
-    
-    const [keyboardPresent, setKeyboardPresence] = useState(false);
+    const [scaling, setScaling] = useState(1);
+    const imageHeight           = new Animated.Value(175);
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidShow",
@@ -37,34 +39,56 @@ const Profile = (props) => {
         })
     })
 
-    const handleKeyboardShow = () => {
-        setKeyboardPresence(true);
+    const handleKeyboardShow = (event) => {
+        Animated.timing(imageHeight, {
+            duration: event.duration,
+            toValue: 125,
+            useNativeDriver: true,
+            easing: Easing.linear
+        }).start();
+        setScaling(0.75);
     }
 
-    const handleKeyboardHide = () => {
-        setKeyboardPresence(false);
+    const handleKeyboardHide = (event) => {
+        Animated.timing(imageHeight, {
+            duration: event.duration,
+            toValue: 175,
+            useNativeDriver: true,
+            easing: Easing.linear
+        }).start();
+        setScaling(1);
     }
-
 
     return(
         <SafeAreaView style = {{flex: 1}}>
             <KeyboardAvoidingView 
                 style = {styles.Container}
-                behavior="margin"
+                behavior='margin'
             >
-                <ScrollView 
-                    style = {{
-                        width: '100%'
-                    }}
-                    contentContainerStyle = {{
-                        alignItems: 'center'
-                    }}
-                >
-                { !keyboardPresent &&   
-                    <Image 
-                        source = {
-                            require('../assets/user-placeholder.png')}
-                        style = {styles.Image}
+            <ScrollView 
+                style={{width: '100%'}}
+                contentContainerStyle = {{
+                    justifyContent: 'flex-start', 
+                    alignItems: 'center'
+                }}
+                showsVerticalScrollIndicator = {false}
+            >
+                { 
+                    <Animated.Image 
+                        source={require('../assets/user-placeholder.png')} 
+                        style={[
+                         {
+                            width: 275,
+                            height: 175
+                         },
+                         {
+                            transform: [
+                              {
+                                scale: scaling
+                              },
+                            ],
+                          },
+                        ]} 
                     />
                 }
                 <View style = {styles.AuthContainer}>
@@ -185,21 +209,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.colorWhite,
+        backgroundColor: Colors.colorWhite
     },
     heading: {
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
     },
-    Image: {
-        width: 275,
-        height: 175,
-        marginVertical: 20
-    },
     AuthContainer: {
         justifyContent: 'center',
-        marginVertical: 20,
         alignItems: 'center',
         padding: 2,
         width: '70%'

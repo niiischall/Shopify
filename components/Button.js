@@ -33,7 +33,10 @@ const Button = (props) => {
                         ...props.ButtonContainer
                     }}
                 >
-                    <Text style = {styles.ButtonText}>
+                    <Text style = {{
+                        ...styles.ButtonText,
+                        ...props.ButtonText
+                    }}>
                         {props.title}
                     </Text>
                 </View>

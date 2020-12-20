@@ -13,3 +13,10 @@ export const deleteFromCart = (productId) => {
         productId: productId
     }
 }
+
+export const placeOrder = (orderDetails) => {
+    return {
+        type: actionTypes.ORDER_PLACE,
+        orderDetails: orderDetails
+    }
+}
