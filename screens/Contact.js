@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Formik } from 'formik';
 
 import Modal from '../components/Modal';
-import validationHelper from '../services/validate';
+import {checkoutValidation} from '../services/validate';
 import * as actions from "../store/actions/actionShop";
 import {Colors} from '../services/constants';
 
@@ -47,10 +47,12 @@ const Contact = (props) => {
     }
 
     const validationHandler = (values) => {
-        const errors = validationHelper(values);
+        const errors = checkoutValidation(values);
 
         if(Object.keys(errors).length === 0)
             setSubmitForm(true);
+        else if(Object.keys(errors).length > 0)
+            setSubmitForm(false)
         setErrors(errors);
         return errors;
     }

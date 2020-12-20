@@ -19,6 +19,7 @@ import {
 } from 'react-navigation-header-buttons';
 import { Formik } from 'formik';
 
+import {profileValidation} from '../services/validate';
 import {Colors} from '../services/constants';
 import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
@@ -26,6 +27,9 @@ import CustomHeaderButton from '../components/HeaderButton';
 const Profile = (props) => {
     const [scaling, setScaling] = useState(1);
     const imageHeight           = new Animated.Value(175);
+
+    const [errors, setErrors]             = useState({});
+    const [SubmitForm, setSubmitForm]     = useState(false);
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidShow",
@@ -57,6 +61,17 @@ const Profile = (props) => {
             easing: Easing.linear
         }).start();
         setScaling(1);
+    }
+
+    
+    const validationHandler = (values) => {
+        const errors = profileValidation(values);
+        if(Object.keys(errors).length === 0)
+            setSubmitForm(true);
+        else if(Object.keys(errors).length > 0)
+            setSubmitForm(false)
+        setErrors(errors);
+        return errors;
     }
 
     return(
@@ -103,6 +118,7 @@ const Profile = (props) => {
                             email: '',
                             password: '' 
                         }}
+                        validate = {validationHandler}
                         onSubmit={
                             values => console.log(values)
                         }
@@ -134,6 +150,12 @@ const Profile = (props) => {
                                     Colors.colorPrimaryTheme
                                 }
                             />
+                            {
+                                errors.email && 
+                                <Text style = {styles.error}>
+                                    *{errors.email}.
+                                </Text>
+                             }
                             <TextInput
                                 onChangeText={
                                     handleChange('password')
@@ -149,11 +171,24 @@ const Profile = (props) => {
                                 placeholderTextColor = {
                                     Colors.colorPrimaryTheme
                                 }
+                                secureTextEntry={true}
                             />
+                            { errors.password && 
+                                <Text style = {styles.error}>
+                                    *{errors.password}.
+                                </Text>
+                            }
                             <TouchableOpacity 
                                 onPress={handleSubmit} 
                                 activeOpacity = {0.8}
-                                style = {styles.ButtonSubmit}
+                                style = {{
+                                    ...styles.ButtonSubmit,
+                                    backgroundColor: 
+                                    SubmitForm 
+                                    ? Colors.colorPrimaryTheme
+                                    : Colors.colorHeadingText
+                                }}
+                                disabled = {!SubmitForm}
                             >
                                 <Text style = {
                                     styles.ButtonText
@@ -281,6 +316,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textDecorationLine: 'none',
         color: Colors.colorPrimaryTheme,
+        fontFamily: 'Roboto-Bold'
+    },
+    error: {
+        alignSelf: 'flex-start',
+        color: Colors.colorSalmon,
+        paddingLeft: 15,
+        fontSize: 14,
         fontFamily: 'Roboto-Bold'
     }
 });
