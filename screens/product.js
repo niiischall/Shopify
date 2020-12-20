@@ -78,7 +78,7 @@ const Product = (props) => {
                                     marginTop: 0
                                 }}
                                 ButtonContainer = {{
-                                    backgroundColor: Colors.colorHeadingText
+                                    backgroundColor: Colors.colorSalmon
                                 }}
                             />
                         }

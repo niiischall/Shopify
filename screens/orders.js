@@ -1,56 +1,76 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { 
     SafeAreaView,
+    ScrollView,
     View,
     Text,
-    Image,
     StyleSheet
 } from 'react-native';
-import {
-    NavigationActions
-} from 'react-navigation';
 import {
     HeaderButtons,
     Item
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
+
+import Logo from '../components/Logo';
 import CartIcon from '../components/CartIcon';
-import CustomButton from '../components/Button';
+import OrderCard from '../components/OrderCard';
 import CustomHeaderButton from '../components/HeaderButton';
+import OrderPlaceholder from '../components/Orders';
 
 const Orders = (props) => {
-    const backToShopping = () => {
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({ routeName: 'Home'})
-            ]
-          });
-          props.navigation.dispatch(resetAction);
-    }
 
+    const placedOrders = useSelector(store => store.ShopReducer.orders);
+
+    let content = <OrderPlaceholder {...props} />;
+
+    if(placedOrders.length > 0){
+        content = (
+        <View style = {styles.CardContainer}>
+            <Text style = {styles.Heading}>
+               Your previous orders
+            </Text>
+            <View style = {styles.HeadingLogo}>
+                <Text style = {styles.Heading}>
+                    on...
+                </Text>
+                <Logo />
+            </View>
+            <ScrollView 
+                style = {{width: '100%'}}
+                contentContainerStyle = {{
+                    alignItems: 'center'
+                }}
+                showsVerticalScrollIndicator = {false}
+            >
+            {
+                placedOrders.map(order => {
+                    return(
+                        <OrderCard 
+                            key = {order.orderId} 
+                            orderDetails = {order} 
+                        />
+                    )
+                })
+            }
+            </ScrollView>
+        </View>
+    )}
 
     return(
         <SafeAreaView style = {{flex: 1}}>
-            <View style = {styles.Container}>
-                <Image 
-                    source = {require('../assets/shopping-bag.png')}
-                    style = {styles.Image}
-                />
-                <Text style = {styles.headline}>
-                    No orders placed
-                </Text>
-                <Text style = {styles.subHeadline}>
-                    You have not ordered anything yet.
-                </Text>
-                <CustomButton 
-                    title   = "Back to Shopping"
-                    onPress = {() => {
-                        props.navigation.navigate('Home')
-                    }}
-                />
-            </View>
+            <ScrollView 
+                style = {styles.Container}
+                contentContainerStyle = {{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                {content}
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -89,32 +109,41 @@ Orders.navigationOptions = (navData) => {
 }
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Colors.colorWhite
-    },
     heading: {
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
     },
-    Image: {
-        width: 200,
-        height: 200,
-        marginBottom: 50
+    Container: {
+        width: '100%',
+        backgroundColor: Colors.colorWhite
     },
-    headline: {
+    CardContainer: {
+        width: '100%',
+        paddingVertical: 20,
+        backgroundColor: Colors.colorWhite,
+        flex: 1,
+        alignItems: 'center'
+    },
+    HeadingContainer: {
+        height: 100,
+        backgroundColor: Colors.colorWhite,
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+    },
+    Heading: {
         fontFamily: 'OpenSans-Bold',
-        fontSize: 20,
-        marginBottom: 5,
-        color: Colors.colorBlack
-    },
-    subHeadline: {
-        fontFamily: 'Roboto',
-        fontSize: 16,
+        fontSize: 17,
         color: Colors.colorHeadingText
+    },
+    HeadingLogo: {
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        width: '32.5%',
     }
 });
 

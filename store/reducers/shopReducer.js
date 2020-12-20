@@ -44,6 +44,7 @@ const shopReducer = (state=initialState, action) => {
         }
         case actionTypes.ORDER_PLACE: {
             let newOrder = {
+                orderId: Date.now(),
                 cart: state.cart,
                 details: action.orderDetails
             }

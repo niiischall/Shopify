@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {format} from 'date-fns'
 import {
     View,
     Text,
@@ -37,7 +38,11 @@ const Contact = (props) => {
     }
 
     const orderHandler = (orderDetail) => {
-        dispatch(actions.placeOrder(orderDetail));
+        const updatedOrderDetail = {
+            ...orderDetail,
+            dateOfPurchase: format(new Date(), 'dd/MM/yyyy')
+        }
+        dispatch(actions.placeOrder(updatedOrderDetail));
         setModalVisible(true);
     }
 
