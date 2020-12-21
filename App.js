@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { 
   composeWithDevTools 
 }  from 'redux-devtools-extension'; 
+import { FIREBASE_KEY } from '@env';
 
 import Navigator from './navigation/navigator';
 import ShopReducer from './store/reducers/shopReducer';
