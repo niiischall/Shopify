@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     View,
@@ -10,19 +10,30 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as actions from '../store/actions/actionShop';
 import CheckoutPlaceholder from '../components/Checkout';
 import Cart from '../components/Cart';
+import {getData} from '../services/asyncFunctions';
 import {Colors} from '../services/constants';
 
 const Checkout = (props) => {
     const dispatch = useDispatch();
 
+    const [goToCheckout, setCheckoutRoute ] = useState(false);
+
     const cartItems = useSelector(store => store.ShopReducer.cart.cartItems);
     const cartPrice = useSelector(store => store.ShopReducer.cart.cartPrice);
     const delivery  = useSelector(store => store.ShopReducer.cart.delivery);
     const totalBill = useSelector(store => store.ShopReducer.cart.totalBill);
+    const userID    = useSelector(store => store.ProfileReducer.userID);
 
     const deleteFromCart = (productId) => {
         dispatch(actions.deleteFromCart(productId));
     }
+
+    useEffect(() => { 
+        if(userID)
+            setCheckoutRoute(true)
+        else
+            setCheckoutRoute(false)
+    }, [userID]);
 
     let content = null;
 
@@ -38,6 +49,7 @@ const Checkout = (props) => {
                 price={cartPrice}
                 delivery={delivery}
                 totalBill={totalBill}
+                goToCheckout={goToCheckout}
                 delete={deleteFromCart} 
             />
         )

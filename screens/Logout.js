@@ -3,6 +3,7 @@ import {
     SafeAreaView,
     View,
     Text,
+    Image,
     StyleSheet
 } from 'react-native';
 import {
@@ -11,27 +12,43 @@ import {
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
+import Button from '../components/Button';
 import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
-const AddItem = (props) => {
+const Logout = (props) => {
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
-                <Text>&nbsp;</Text>
+                <Image 
+                    source = {require('../assets/log-out.png')}
+                    style = {styles.Image}
+                />
+                <View style = {styles.TextContainer}>
+                    <Text style = {styles.heading}>
+                       Hey, You're leaving too early..
+                     </Text>
+                    <Text style = {styles.subheading}>
+                        We're sad to see you go.
+                    </Text>
+                </View>
+                <Button 
+                    title = "Logout"
+                    onPress = {() => dispatch(authLogout())}
+                />
             </View>
         </SafeAreaView>
     )
 }
 
-AddItem.navigationOptions = (navData) => {
+Logout.navigationOptions = (navData) => {
     return {
         headerTitleStyle: {
             alignSelf: 'left'
         },
         headerTitle: () => (
             <Text style = {styles.heading}>
-                Add Item
+                Logout
             </Text>
         ),
         headerLeft: () => (
@@ -50,7 +67,7 @@ AddItem.navigationOptions = (navData) => {
         headerRight: () => (
             <CartIcon 
                 onPress  = {
-                    () => console.log("CART")
+                    () => navData.navigation.navigate('Checkout')
                 } 
             />
         )
@@ -59,16 +76,41 @@ AddItem.navigationOptions = (navData) => {
 
 const styles = StyleSheet.create({
     Container: {
+        width: '100%',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.colorBackgroundContent
+        backgroundColor: Colors.colorWhite
     },
     heading: {
         fontFamily: 'Roboto-Bold',
         fontSize: 20,
         color: Colors.colorPrimaryTheme
+    },
+    Image: {
+        width: 200,
+        height: 200
+    },
+    TextContainer: {
+        width:'100%',
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    heading: {
+        fontFamily: 'OpenSans-Bold',
+        fontSize: 20,
+        marginBottom: 5,
+        color: Colors.colorPrimaryTheme,
+        textTransform: 'capitalize'
+    },
+    subheading: {
+        fontFamily: 'Roboto',
+        marginBottom: 10,
+        fontSize: 16,
+        textAlign: 'center',
+        color: Colors.colorHeadingText
     }
 });
 
-export default AddItem;
+export default Logout;

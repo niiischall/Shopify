@@ -1,5 +1,4 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {
     View,
     ScrollView,
@@ -14,6 +13,15 @@ import {Colors} from '../services/constants';
 import CustomButton from '../components/Button';
 
 const Cart = (props) => {
+
+    const navigationHandler = () => {
+        console.log(props.goToCheckout);
+        if(props.goToCheckout)
+            props.navigation.navigate('Contact')
+        else
+            props.navigation.navigate('Profile')
+    }
+
     return(
     <View style={styles.Container}>
         <View style = {styles.headlineContainer}>
@@ -100,7 +108,7 @@ const Cart = (props) => {
             <CustomButton 
                 title = "Place order" 
                 ButtonContainerStyle = {{marginTop: 0}}
-                onPress = {() => props.navigation.navigate('Contact')}
+                onPress = {navigationHandler}
             />
         </View>
     </View>

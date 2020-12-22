@@ -30,7 +30,7 @@ import Product    from '../screens/product';
 import Home       from '../screens/home';
 import Orders     from '../screens/orders';
 import Profile    from '../screens/profile';
-import AddItem    from '../screens/addItem';
+import Logout     from '../screens/Logout';
 import Drawer     from '../components/Drawer';
 import Checkout   from '../screens/Checkout';
 import Contact    from '../screens/Contact';
@@ -88,9 +88,9 @@ const ProfileStackNavigator = createStackNavigator(
     }
 )
 
-const AddItemStackNavigator = createStackNavigator(
+const LogoutStackNavigator = createStackNavigator(
     {
-        AddItem:AddItem
+        Logout: Logout
     },
     {
         defaultNavigationOptions:  defaultStackNavigationOptions
@@ -201,8 +201,8 @@ const DrawerNavigator = createDrawerNavigator(
         Shop: {
             screen: TabNavigator
         },
-        Sell: {
-            screen: AddItemStackNavigator
+        Logout: {
+            screen: LogoutStackNavigator
         },
         Checkout: {
             screen: CheckoutStackNavigator

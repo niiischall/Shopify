@@ -50,25 +50,25 @@ const Drawer = (props) => {
                                 ? styles.SelectedDrawerItemText
                                 : styles.DrawerItemText
                             }
-                        >Shopify Store</Text>
+                        >Shop</Text>
                     </View>
                     <View 
                         style = {
-                            props.activeItemKey === 'Sell'   
+                            props.activeItemKey === 'Logout'   
                             ? styles.SelectedDrawerItem
                             : styles.DrawerItem
                         }
                         onTouchStart = {
-                            () => navigate('Sell')
+                            () => navigate('Logout')
                         }
                     >
                         <Text 
                             style = {
-                                props.activeItemKey === 'Sell'   
+                                props.activeItemKey === 'Logout'   
                                 ? styles.SelectedDrawerItemText
                                 : styles.DrawerItemText
                             }
-                        >Sell On Shopify</Text>
+                        >Logout</Text>
                     </View>
                 </View>
                 <View style = {styles.DrawerListItem}>
