@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useSelector} from 'react-redux';
 import { 
     SafeAreaView,
     View,
     Text,
     FlatList,
-    TouchableOpacity,
     StyleSheet
 } from 'react-native';
 import {
@@ -22,9 +21,23 @@ import CustomHeaderButton from '../components/HeaderButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Categories = (props) => {
-    const categories = useSelector(store => store.ShopReducer.categories);
+    const fetchedCategories = useSelector(store => store.ShopReducer.categories);
 
+    const [categories, setCategories] = useState([]);
     const [searchedCategory, onSearching] = useState('');
+
+    useEffect(() => {
+        setCategories(fetchedCategories);
+    }, []);
+
+    useEffect(() => {
+        const filteredCategories = fetchedCategories.filter(category => category.title.includes(searchedCategory));
+        setCategories(filteredCategories);
+    }, [searchedCategory]);
+
+    const searchHandler = (query) => {
+        onSearching(query);
+    }
 
     const CategoryItem = (itemData) => {
         return <Category 
@@ -43,21 +56,15 @@ const Categories = (props) => {
             <View style = {styles.Container}>
                 <View style = {styles.searchBar}>
                     <CustomInput 
-                        onChange    = {onSearching}
+                        onChange    = {searchHandler}
                         value       = {searchedCategory}
                         placeholder = "Search for categories..."
                     />
-                    <TouchableOpacity 
-                        activeOpacity = {0.7}
-                        style = {styles.searchButton}
-                        onPress = {() => console.log("SEARCH")}
-                    >
-                        <Ionicons 
-                            name  = "md-search"
-                            size  = {24}
-                            color = {Colors.colorPrimaryTheme}
-                        />
-                    </TouchableOpacity>
+                    <Ionicons 
+                        name  = "md-search"
+                        size  = {24}
+                        color = {Colors.colorPrimaryTheme}
+                    />
                 </View>
                 <FlatList 
                     data         = {categories}
@@ -89,8 +96,7 @@ Categories.navigationOptions = (navData) => {
                 <Item 
                     iconName = "ios-menu"
                     title    = "DRAWER"
-                    onPress  = {
-                        () => navData.navigation.toggleDrawer()
+                    onPress  = {() => navData.navigation.toggleDrawer()
                     }    
                 />
             </HeaderButtons>

@@ -66,24 +66,6 @@ const Home = (props) => {
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.Container}>
-                <View style = {styles.searchBar}>
-                    <CustomInput 
-                        onChange    = {onSearching}
-                        value       = {searchedProduct}
-                        placeholder = "Search for products..."
-                    />
-                    <TouchableOpacity 
-                        activeOpacity = {0.7}
-                        style = {styles.searchButton}
-                        onPress = {() => console.log("SEARCH")}
-                    >
-                        <Ionicons 
-                            name  = "md-search"
-                            size  = {24}
-                            color = {Colors.colorPrimaryTheme}
-                        />
-                    </TouchableOpacity>
-                </View>
                 <View 
                     style = {{flex: 1, width: '100%'}}
                 >
@@ -156,21 +138,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.colorWhite
-    },
-    searchBar: {
-        width: '100%',
-        height: 60,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    searchButton: {
-        height: 40,
-        width: '10%',
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Colors.colorBackgroundContent
     },
     TopCategoriesContainer: {
         height: 160

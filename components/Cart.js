@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
     View,
     ScrollView,
@@ -9,15 +10,18 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import * as actions from '../store/actions/actionShop';
 import {Colors} from '../services/constants';
 import CustomButton from '../components/Button';
 
 const Cart = (props) => {
+    const dispatch = useDispatch();
 
     const navigationHandler = () => {
-        console.log(props.goToCheckout);
-        if(props.goToCheckout)
+        if(props.goToCheckout){
+            dispatch(actions.prepareForOrder());
             props.navigation.navigate('Contact')
+        } 
         else
             props.navigation.navigate('Profile')
     }

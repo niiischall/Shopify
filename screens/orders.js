@@ -1,9 +1,10 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
     SafeAreaView,
     ScrollView,
     View,
+    Image,
     Text,
     StyleSheet
 } from 'react-native';
@@ -13,20 +14,73 @@ import {
 } from 'react-navigation-header-buttons';
 
 import {Colors} from '../services/constants';
-
+import {fetchOrder} from '../store/actions/actionShop';
 import Logo from '../components/Logo';
 import CartIcon from '../components/CartIcon';
+import Button from '../components/Button';
 import OrderCard from '../components/OrderCard';
 import CustomHeaderButton from '../components/HeaderButton';
 import OrderPlaceholder from '../components/Orders';
 
 const Orders = (props) => {
+    const dispatch = useDispatch();
 
     const placedOrders = useSelector(store => store.ShopReducer.orders);
+    const loading = useSelector(store => store.ShopReducer.loading);
+    const userID = useSelector(store => store.ProfileReducer.userID);
 
-    let content = <OrderPlaceholder {...props} />;
+    useEffect(() => {
+        if(userID)
+            dispatch(fetchOrder());
+    }, [userID]);
 
-    if(placedOrders.length > 0){
+    let content = null;
+
+    /*Not Logged In to see orders*/
+    if(!loading && !userID){
+        content = (
+            <View style = {styles.CardContainer}>
+                <Image 
+                    source = {require('../assets/access-denied.png')}
+                    style = {styles.Image}
+                />
+                <View style = {{alignItems: 'center'}}>
+                    <Text 
+                        style = {{
+                            ...styles.Heading,
+                            fontSize: 22,
+                            color: Colors.colorSalmon
+                        }}
+                    >
+                        We can't find your orders.
+                    </Text>
+                    <Text style = {styles.SubHeading}>
+                        It seems you're not logged in.
+                    </Text>
+                </View>
+                <Button 
+                    title = "Login/Sign Up"
+                    onPress = {() => props.navigation.navigate('Profile')}
+                />
+            </View>
+        )
+    }
+
+    /*Fetching Orders*/
+    if(loading && userID){
+        content = (
+            <View style = {styles.CardContainer}> 
+                <Text>Fetching your orders..</Text>
+            </View>
+        )
+    }
+
+    /*No orders are placed.*/
+    if(!loading && userID && placedOrders.length === 0)
+        content = <OrderPlaceholder {...props} />;
+
+    /*Placed Orders*/
+    if(!loading && userID && placedOrders.length > 0){
         content = (
         <View style = {styles.CardContainer}>
             <Text style = {styles.Heading}>
@@ -123,6 +177,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: Colors.colorWhite,
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center'
     },
     HeadingContainer: {
@@ -144,6 +199,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         width: '32.5%',
+    },
+    Image: {
+        width: 250,
+        height: 250
+    },
+    SubHeading: {
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        color: Colors.colorHeadingText
     }
 });
 

@@ -24,7 +24,7 @@ const ProfileError = (props) => {
                     {props.error}.
                 </Text>
                 <Text style = {styles.subheading}>
-                    That's incorrect information.
+                    There seems to be an issue.
                 </Text>
             </View>
             <Button 

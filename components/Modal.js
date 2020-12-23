@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     View,
     Modal,
-    Alert,
     Text,
     StyleSheet
 } from 'react-native';
@@ -12,6 +11,7 @@ import {Colors} from '../services/constants'
 import Button from './Button';
 
 const CustomModal = (props) => {
+    console.log(props.error);
     return(
     <View style={styles.Container}>
         <Modal
@@ -21,17 +21,36 @@ const CustomModal = (props) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Ionicons 
-                name  = "md-checkmark-circle"
-                size  = {42}
-                color = {Colors.colorPrimaryTheme}
-              />
-              <Text style={styles.modalText}>
-                Your Order is Successful
-              </Text>
-              <Text style={styles.modalSubtitleText}>
-                Thank you for shopping with us.
-              </Text>
+              { props.error !== ''
+                ? <Ionicons 
+                    name  = "md-close-circle"
+                    size  = {42}
+                    color = {Colors.colorSalmon}
+                  />
+                : <Ionicons 
+                    name  = "md-checkmark-circle"
+                    size  = {42}
+                    color = {Colors.colorPrimaryTheme}
+                  />
+              }
+              { props.error !== ''
+                ? <View style = {{alignItems: 'center'}}>
+                    <Text style={styles.modalText}>
+                      {props.error}
+                    </Text>
+                    <Text style={styles.modalSubtitleText}>
+                      We couldn't process your order.
+                    </Text>
+                  </View>
+                : <View>
+                    <Text style={styles.modalText}>
+                      Your Order is Successful
+                    </Text>
+                    <Text style={styles.modalSubtitleText}>
+                      Thank you for shopping with us.
+                    </Text>
+                  </View>
+              }
               <View style = {styles.ButtonContainer}>
                 <Button 
                     ButtonContainerStyle = {styles.BtnContainerOne}

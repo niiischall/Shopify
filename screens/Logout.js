@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
     SafeAreaView,
     View,
@@ -11,32 +12,64 @@ import {
     Item
 } from 'react-navigation-header-buttons';
 
+import {authLogout} from '../store/actions/actionProfile';
 import {Colors} from '../services/constants';
 import Button from '../components/Button';
 import CartIcon from '../components/CartIcon';
 import CustomHeaderButton from '../components/HeaderButton';
 
 const Logout = (props) => {
+    const dispatch = useDispatch();
+
+    const userID = useSelector(store => store.ProfileReducer.userID);
+
+    const logoutHandler = () => {
+        dispatch(authLogout());
+        props.navigation.navigate('Shop');
+    }
+
     return(
         <SafeAreaView style = {{flex: 1}}>
-            <View style = {styles.Container}>
-                <Image 
-                    source = {require('../assets/log-out.png')}
-                    style = {styles.Image}
-                />
-                <View style = {styles.TextContainer}>
-                    <Text style = {styles.heading}>
-                       Hey, You're leaving too early..
-                     </Text>
-                    <Text style = {styles.subheading}>
-                        We're sad to see you go.
-                    </Text>
-                </View>
-                <Button 
-                    title = "Logout"
-                    onPress = {() => dispatch(authLogout())}
-                />
-            </View>
+            {
+                userID !== '' 
+                ? <View style = {styles.Container}>
+                    <Image 
+                        source = {require('../assets/log-out.png')}
+                        style = {styles.Image}
+                    />
+                    <View style = {styles.TextContainer}>
+                        <Text style = {styles.heading}>
+                            Confirm Your Logout.
+                        </Text>
+                        <Text style = {styles.subheading}>
+                            "By Logging out, you won't be able to place orders/see your previous orders on Shopify."
+                        </Text>
+                        <Button 
+                            title = "Logout"
+                            onPress = {logoutHandler}
+                        />
+                    </View>
+                 </View>
+                : <View style = {styles.Container}>
+                    <Image 
+                        source = {require('../assets/access-denied.png')}
+                        style = {styles.Image}
+                    />
+                    <View style = {styles.TextContainer}>
+                        <Text style = {styles.heading}>
+                            Login Or Sign Up.
+                        </Text>
+                        <Text style = {styles.subheading}>
+                            "It seems you're not registered
+                            at the moment. Head over to the profile section to Log In or Signing Up."
+                        </Text>
+                        <Button 
+                            title = "Login/Sign Up"
+                            onPress = {() => props.navigation.navigate('Profile')}
+                        />
+                    </View>
+                  </View>
+            }
         </SafeAreaView>
     )
 }
@@ -105,9 +138,11 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize'
     },
     subheading: {
+        width: '75%',
         fontFamily: 'Roboto',
+        fontStyle: 'italic',
         marginBottom: 10,
-        fontSize: 16,
+        fontSize: 18,
         textAlign: 'center',
         color: Colors.colorHeadingText
     }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {format} from 'date-fns'
 import {
     View,
@@ -7,6 +7,7 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
+    ActivityIndicator,
     StyleSheet
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,30 +21,35 @@ import {Colors} from '../services/constants';
 const Contact = (props) => {
 
     const dispatch = useDispatch();
+    const cart     = useSelector(store => store.ShopReducer.cart);
+    const loading  = useSelector(store => store.ShopReducer.loading);
+    const error  = useSelector(store => store.ShopReducer.error);
+    const ordered  = useSelector(store => store.ShopReducer.ordered);
+    const userID   = useSelector(store => store.ProfileReducer.userID);
     
-    const [modalVisible, setModalVisible] = useState(false);
     const [errors, setErrors]             = useState({});
     const [SubmitForm, setSubmitForm]     = useState(false);
 
     const goToOrders = () => {
         props.navigation.popToTop();
         props.navigation.navigate('Orders');
-        setModalVisible(false);
     }
 
     const goToShop = () => {
         props.navigation.popToTop();
         props.navigation.navigate('Shop');
-        setModalVisible(false);
     }
 
     const orderHandler = (orderDetail) => {
         const updatedOrderDetail = {
-            ...orderDetail,
+            userID: userID,
+            cart: cart,
+            contact: {
+                ...orderDetail
+            },
             dateOfPurchase: format(new Date(), 'dd/MM/yyyy')
         }
         dispatch(actions.placeOrder(updatedOrderDetail));
-        setModalVisible(true);
     }
 
     const validationHandler = (values) => {
@@ -59,11 +65,24 @@ const Contact = (props) => {
 
     return(
         <View style = {styles.Container}>
-            <Modal 
-                modalVisible = {modalVisible} 
-                moveToOrders = {goToOrders}
-                moveToShop = {goToShop}
-            />
+            {   loading &&
+                <View style = {styles.Spinner}>
+                    <ActivityIndicator 
+                        size="small" 
+                        color= {Colors.colorWhite}
+                        animating = {loading}
+                    />
+                </View>
+            }
+            {
+                !loading && ordered &&
+                <Modal 
+                    modalVisible = {ordered} 
+                    moveToOrders = {goToOrders}
+                    moveToShop   = {goToShop}
+                    error        = {error}
+                />
+            }
             <View style = {styles.TopBar}>
                 <TouchableOpacity
                     activeOpacity = {0.8}
@@ -302,6 +321,16 @@ const styles = StyleSheet.create({
         paddingLeft: 40,
         fontSize: 14,
         fontFamily: 'Roboto-Bold'
+    },
+    Spinner: {
+        position: 'absolute',
+        top: '45%',
+        zIndex: 1,
+        backgroundColor: Colors.colorPrimaryTheme,
+        marginVertical: 20,
+        width: 75,
+        padding: 5,
+        borderRadius: 100
     }
 })
 

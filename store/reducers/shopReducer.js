@@ -11,7 +11,10 @@ const initialState = {
         delivery: 10.00,
         totalBill: 10.00
     },
-    orders: []
+    orders: [],
+    loading: false,
+    error: '',
+    ordered: false
 }
 
 const shopReducer = (state=initialState, action) => {
@@ -42,13 +45,15 @@ const shopReducer = (state=initialState, action) => {
                 }
             }
         }
-        case actionTypes.ORDER_PLACE: {
-            let newOrder = {
-                orderId: Date.now(),
-                cart: state.cart,
-                details: action.orderDetails
+        case actionTypes.ORDER_PLACE_START: {
+            return {
+                ...state,
+                loading: true,
+                ordered: false,
+                error: ''
             }
-
+        }
+        case actionTypes.ORDER_PLACE_SUCCESS: {
             return {
                 ...state,
                 cart: {
@@ -58,7 +63,48 @@ const shopReducer = (state=initialState, action) => {
                     delivery: 10.00,
                     totalBill: 10.00
                 },
-                orders: state.orders.concat(newOrder)
+                loading: false,
+                ordered: true,
+                error: ''
+            }
+        }
+        case actionTypes.ORDER_PLACE_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                ordered: true,
+                error: action.error
+            }
+        }
+        case actionTypes.PREPARE_FOR_ORDER: {
+            return {
+                ...state,
+                loading: false,
+                error: '',
+                ordered: false
+            }
+        }
+        case actionTypes.ORDER_FETCH_START: {
+            return {
+                ...state,
+                loading: true,
+                orders: []
+            }
+        }
+        case actionTypes.ORDER_FETCH_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                error: '',
+                orders: action.orders
+            }
+        }
+        case actionTypes.ORDER_FETCH_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                orders: []
             }
         }
         default: 

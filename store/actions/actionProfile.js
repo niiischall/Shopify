@@ -23,9 +23,14 @@ const authSuccess = (userID, IDToken, userEmail) => {
 }
 
 const authFailed = (error) => {
+    let errorMessage = ''
+    if(error.response)
+        errorMessage = error.response.data.error.message;
+    else 
+        errorMessage = error.message
     return {
         type: actionTypes.AUTH_FAILED,
-        error: error.message
+        error: errorMessage
     }
 }
 
@@ -53,7 +58,7 @@ export const authentication = (inputValues, inputMethod)=>{
     return dispatch => {
         dispatch(authStart());
         axios.post(apiURL, info)
-        .then(response => { 
+        .then(response => {
             dispatch(authSuccess(response.data.localId, response.data.idToken, info.email));
 
             storeData('userID', response.data.localId);
@@ -61,7 +66,7 @@ export const authentication = (inputValues, inputMethod)=>{
             storeData('email', info.email);
          })
         .catch(error => {
-            dispatch(authFailed(error.response.data.error));
+            dispatch(authFailed(error));
         })
     }
 }
