@@ -1,2 +1,2 @@
 # Shopify
-An android-based ecommerce mobile application, built using React Native. 
+An andriod-based ecommerce mobile application, built using React Native. 
