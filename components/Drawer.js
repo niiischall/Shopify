@@ -1,18 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
     View,
     Text,
-    Image,
     ScrollView,
     SafeAreaView,
     StyleSheet
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
 
-
 const Drawer = (props) => {
+    const email = useSelector(store => store.ProfileReducer.email);
+    const splitEmail = email.split("@");
+
     const navigate = (inputRoute) => {
         const navigateAction = NavigationActions.navigate({
             routeName: inputRoute
@@ -72,21 +75,26 @@ const Drawer = (props) => {
                     </View>
                 </View>
                 <View style = {styles.DrawerListItem}>
-                    <View style = {{
-                        ...styles.DrawerItem,
-                        justifyContent: "center",
-                        paddingBottom: 20
-                    }}>
-                        <Image 
-                            source = {
-                                require('../assets/user.jpg')
-                            }
-                            style = {styles.User}
-                        />
-                        <Text 
-                            style = {styles.DrawerItemText}
-                        >harry truman</Text>
-                    </View>
+                    {
+                        email !== '' &&
+                        <View style = {{
+                            ...styles.DrawerItem,
+                            justifyContent: "center",
+                            paddingBottom: 20
+                        }}>
+                            <Ionicons 
+                                name  = "person-circle-outline"
+                                size  = {50}
+                                color = {Colors.colorWhite}
+                            />
+                            <Text 
+                                style = {{
+                                    ...styles.DrawerItemText,
+                                    marginLeft: 10
+                                }}
+                            >{splitEmail[0]}</Text>
+                        </View>
+                    }
                 </View>
             </ScrollView>
         </View>
@@ -127,16 +135,10 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize'
     },
     DrawerItemText: {
+        flexWrap: 'wrap',
         fontSize: 16,
         fontFamily: 'Roboto-Bold',
-        color: Colors.colorWhite,
-        textTransform: 'capitalize'
-    },
-    User: {
-        width: 50,
-        height: 50,
-        borderRadius: 100,
-        marginRight: 10
+        color: Colors.colorWhite
     }
 })
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
     SafeAreaView,
     ScrollView,
+    ActivityIndicator,
     View,
     Image,
     Text,
@@ -70,7 +71,13 @@ const Orders = (props) => {
     if(loading && userID){
         content = (
             <View style = {styles.CardContainer}> 
-                <Text>Fetching your orders..</Text>
+                <View style = {styles.Spinner}>
+                    <ActivityIndicator 
+                        size="small" 
+                        color= {Colors.colorWhite}
+                        animating = {true}
+                    />
+                </View>
             </View>
         )
     }
@@ -208,6 +215,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 16,
         color: Colors.colorHeadingText
+    },
+    Spinner: {
+        alignSelf: 'center',
+        backgroundColor: Colors.colorPrimaryTheme,
+        marginTop: 20,
+        width: 75,
+        padding: 5,
+        borderRadius: 100
     }
 });
 
