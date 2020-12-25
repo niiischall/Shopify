@@ -1,10 +1,8 @@
-import categories from '../../data/categories';
-import products from '../../data/products';
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    categories: [...categories],
-    products: [...products],
+    categories: [],
+    products: [],
     cart: {
         cartItems: [],
         cartPrice: 0,
@@ -19,6 +17,13 @@ const initialState = {
 
 const shopReducer = (state=initialState, action) => {
     switch(action.type){
+        case actionTypes.GET_CONTENT:{
+            return {
+                ...state,
+                categories: action.categories,
+                products: action.products
+            }
+        }
         case actionTypes.CART_ADD_ITEM:{
             let product = state.products.find(product => product.id === action.productId);
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
     SafeAreaView,
     ScrollView,
-    TouchableOpacity,
+    ActivityIndicator,
     View,
     Text,
     StyleSheet
@@ -14,12 +14,10 @@ import {
     HeaderButtons,
     Item
 } from 'react-navigation-header-buttons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
 import Logo from '../components/Logo';
 import CartIcon from '../components/CartIcon';
-import CustomInput from '../components/Input';
 import CustomHeaderButton from '../components/HeaderButton';
 import CategoryOvals from '../components/CategoryOvals';
 import catalogue from '../components/Catalogue';
@@ -28,7 +26,6 @@ import catalogue from '../components/Catalogue';
 const Home = (props) => {
     const [homeCatalogue, setHomeCatalogue] = useState([]);
     const [stickyIndices, setStickyIndices] = useState([]);
-    const [searchedProduct, onSearching]    = useState('');
 
     const categories = useSelector(store => store.ShopReducer.categories);
     const products = useSelector(store => store.ShopReducer.products);
@@ -41,16 +38,16 @@ const Home = (props) => {
     }
 
     useEffect(() => {
-        if(categories){
+        if(categories.length > 0){
             let fetchedHomeCatalogue = [];
             categories.forEach(category => {
                 fetchedHomeCatalogue.push(category);
-                let selectedProducts = products.filter(product => product.categoryId.includes(category.id));
+                let selectedProducts = products.filter(product => product.categoryId === category.id);
                 fetchedHomeCatalogue = fetchedHomeCatalogue.concat(selectedProducts);
             });
             setHomeCatalogue(fetchedHomeCatalogue);
         }
-    }, []);
+    }, [categories, products]);
 
     useEffect(() => {
         if(homeCatalogue.length > 0){
@@ -69,26 +66,39 @@ const Home = (props) => {
                 <View 
                     style = {{flex: 1, width: '100%'}}
                 >
-                    <View 
-                        style = {styles.TopCategoriesContainer}
-                    >
-                        <View
-                            style = {styles.TopCategory}
-                        >
-                            <Text style = {styles.categoryText}>
-                                Top Categories
-                            </Text>
-                        </View>
-                        <ScrollView 
-                            horizontal = {true}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <CategoryOvals 
-                                categories = {categories}
-                                onClick = {seeCategory}
+                    {   homeCatalogue.length === 0 &&
+                        <View style = {styles.Spinner}>
+                            <ActivityIndicator 
+                                size="small" 
+                                color= {Colors.colorWhite}
+                                animating = {true}
                             />
-                        </ScrollView>
-                    </View>
+                        </View>
+                    }
+                    {   homeCatalogue.length > 0 &&
+                        <View 
+                            style = {styles.TopCategoriesContainer}
+                        >
+                            <View
+                                style = {styles.TopCategory}
+                            >
+                                <Text 
+                                    style = {styles.categoryText}
+                                >
+                                    Top Categories
+                                </Text>
+                            </View>
+                            <ScrollView 
+                                horizontal = {true}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <CategoryOvals 
+                                    categories = {categories}
+                                    onClick = {seeCategory}
+                                />
+                            </ScrollView>
+                        </View>
+                    }
                     <ScrollView
                         style = {styles.CategoryList}
                         showsVerticalScrollIndicator = {false}
@@ -155,6 +165,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Bold',
         fontSize: 18,
         color: Colors.colorPrimaryTheme
+    },
+    Spinner: {
+        alignSelf: 'center',
+        backgroundColor: Colors.colorPrimaryTheme,
+        marginTop: 20,
+        width: 75,
+        padding: 5,
+        borderRadius: 100
     }
 });
 

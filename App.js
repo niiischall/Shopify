@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { 
   createStore, 
   combineReducers,
@@ -10,9 +10,9 @@ import {
 }  from 'redux-devtools-extension'; 
 import thunk from 'redux-thunk';
 
-import Navigator from './navigation/navigator';
 import ShopReducer from './store/reducers/shopReducer';
 import ProfileReducer from './store/reducers/profileReducer';
+import Layout from './Layout';
 
 const combinedReducer = combineReducers({
   ShopReducer: ShopReducer,
@@ -23,7 +23,7 @@ const store = createStore(combinedReducer, composeWithDevTools(applyMiddleware(t
 const App = () => {
   return (
     <Provider store = {store}>    
-      <Navigator />
+      <Layout />
     </Provider>
 )};
 

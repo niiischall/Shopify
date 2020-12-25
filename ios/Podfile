@@ -22,6 +22,8 @@ target 'Shopify' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'RNBootSplash', :path => '../node_modules/react-native-bootsplash'
+
   target 'ShopifyTests' do
     inherit! :complete
     # Pods for testing

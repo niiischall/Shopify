@@ -9,23 +9,18 @@ import {
     ScrollView,
     StyleSheet
 } from 'react-native';
-import {
-    HeaderButtons,
-    Item
-} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Colors} from '../services/constants';
 import CartIcon from '../components/CartIcon';
 import Logo from '../components/Logo';
-import CustomHeaderButton from '../components/HeaderButton';
 
 const Category = (props) => {
     const Products = useSelector(store => store.ShopReducer.products)
     const categoryName = props.navigation.getParam('categoryName');
     const categoryId = props.navigation.getParam('categoryId')
 
-    const selectedProducts = Products.filter(product => product.categoryId.includes(categoryId));
+    const selectedProducts = Products.filter(product => product.categoryId === categoryId);
 
     return(
         <SafeAreaView style = {{flex: 1}}>

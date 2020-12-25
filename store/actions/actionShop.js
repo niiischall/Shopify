@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import apiUrls from '../../services/apiUrls';
 import axios from 'axios';
+import RNBootSplash from 'react-native-bootsplash';
 
 export const addToCart = (productId) => {
     return {
@@ -103,6 +104,29 @@ export const fetchOrder = () => {
         })
         .catch(error => {
             dispatch(fetchOrderFailure(error));
+        })
+    }
+}
+
+const setContent = (categories, products) => {
+    return {
+        type: actionTypes.GET_CONTENT,
+        categories: Object.values(categories),
+        products: Object.values(products)
+    }
+}
+
+export const getContent = () => {  
+    return dispatch => {
+        const requestOne = axios.get(apiUrls.categories);
+        const requestTwo = axios.get(apiUrls.products);
+        axios.all([requestOne, requestTwo])
+        .then(axios.spread((...responses) => {
+            RNBootSplash.hide(); 
+            dispatch(setContent(responses[0].data, responses[1].data));
+        }))
+        .catch(errors => {
+            console.log(errors);
         })
     }
 }
